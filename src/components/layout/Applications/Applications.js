@@ -1,24 +1,22 @@
 import React from 'react';
 import { Flex, Text, Button, Heading } from '@chakra-ui/react';
 import Breadcrumb from '../../ui/Breadcrumb';
+import { useNavigate } from 'react-router-dom';
+import Title from '../../ui/Title';
 const Applications = () => {
+	const navigate = useNavigate();
 	return (
 		<Flex flexDir={'column'}>
-			<Flex h={'10vh'} bg={'gray.800'} flexDir={'column'} color={'white'} alignItems={'center'}>
-				<Flex w={'100%'}>
-					<Breadcrumb />
-				</Flex>
-				<Flex alignItems={'center'}>
-					<Heading fontSize={'30px'}>Αιτήσεις</Heading>
-				</Flex>
-			</Flex>
+			<Title title={'Αιτήσεις'} />
 			<Flex bg={'white'} px={'18vw'} py={'5vh'} h={'73vh'}>
-				<Flex bg={'gray.500'} w={'100%'} rounded={'md'} flexDir={'column'}>
+				<Flex bg={'gray.100'} w={'100%'} rounded={'md'} flexDir={'column'}>
 					<Flex alignItems={'center'} justifyContent={'space-between'} m={'30px'}>
-						<Button colorScheme={'green'}>
+						<Button
+							colorScheme={'blue'}
+							onClick={() => navigate('/applications/new-application')}>
 							<Text>Νέα Αίτηση</Text>
 						</Button>
-						<Button colorScheme={'green'}>
+						<Button colorScheme={'blue'}>
 							<Text>Κατάσταση Τελευταίας Αίτησης</Text>
 						</Button>
 					</Flex>

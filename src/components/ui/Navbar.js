@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
 	return (
 		<Flex
-			h={'7vh'}
+			h={'6vh'}
 			bgColor={'blue.800'}
 			color={'white'}
 			alignItems={'center'}

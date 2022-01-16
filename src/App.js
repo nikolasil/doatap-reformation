@@ -7,6 +7,7 @@ import { Flex } from '@chakra-ui/react';
 import Navbar from './components/ui/Navbar';
 import Header from './components/ui/Header';
 import Applications from './components/layout/Applications/Applications';
+import NewApplication from './components/layout/Applications/NewApplication';
 
 const theme = extendTheme({
 	colors: {
@@ -36,6 +37,7 @@ function App() {
 							<Route exact path='/' element={<Landing />} />
 							<Route exact path='/login' element={<Login />} />
 							<Route exact path='/applications' element={<Applications />} />
+							<Route exact path='/applications/new-application' element={<NewApplication />} />
 						</Routes>
 					</Flex>
 				</Router>
