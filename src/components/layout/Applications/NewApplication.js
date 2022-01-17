@@ -27,7 +27,7 @@ const NewApplication = () => {
 	};
 
 	return (
-		<Flex flexDir={'column'} bgColor={'gray.50'} h={'79vh'}>
+		<Flex flexDir={'column'} bgColor={'gray.50'}>
 			<Title title={'Νέα Αίτηση'} />
 			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
 			{renderFormStatus()}

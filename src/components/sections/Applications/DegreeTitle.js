@@ -23,7 +23,7 @@ const DegreeTitle = () => {
 	const handleValidation = (values) => {};
 
 	return (
-		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} h={'100%'}>
+		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} h={'100%'} mb={'50px'}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
 			<Formik
 				initialValues={initialValues}
@@ -113,7 +113,7 @@ const DegreeTitle = () => {
 						<Text my={'10px'} fontSize={'18px'} fontWeight={'500'}>
 							Επιλέξτε Χώρα για να δείτε τα σχετικά Πανεπιστήμια
 						</Text>
-						<Flex w={'20%'}>
+						<Flex w={'50%'}>
 							<Field name={'study_country'}>
 								{({ field, form }) => (
 									<FormControl
@@ -137,7 +137,7 @@ const DegreeTitle = () => {
 								)}
 							</Field>
 						</Flex>
-						<Flex w={'20%'}>
+						<Flex w={'50%'}>
 							<Field name={'study_country_uni'}>
 								{({ field, form }) => (
 									<FormControl
@@ -155,12 +155,107 @@ const DegreeTitle = () => {
 											{universities
 												.filter((uni) => uni.alpha_two_code === studyCountry)
 												.map((uni, index) => (
-													<option key={uni.index} value={uni.name}>
+													<option key={index} value={uni.name}>
 														{uni.name}
 													</option>
 												))}
 										</Select>
 										<FormErrorMessage>{form.errors.study_country_uni}</FormErrorMessage>
+									</FormControl>
+								)}
+							</Field>
+						</Flex>
+						<Flex w={'50%'}>
+							<Field name={'study_title'}>
+								{({ field, form }) => (
+									<FormControl
+										isInvalid={form.errors.study_title && form.touched.study_title}
+										mt={'20px'}>
+										<FormLabel htmlFor='study_title'>Τίτλος Σπουδών</FormLabel>
+										<Input
+											{...field}
+											id='study_title'
+											placeholder='Εισάγετε Τίτλο Σπουδών'
+										/>
+										<FormErrorMessage>{form.errors.study_title}</FormErrorMessage>
+									</FormControl>
+								)}
+							</Field>
+						</Flex>
+						<Flex w={'40%'}>
+							<Field name={'study_credits'}>
+								{({ field, form }) => (
+									<FormControl
+										isInvalid={form.errors.study_credits && form.touched.study_credits}
+										mt={'20px'}>
+										<FormLabel htmlFor='study_credits'>
+											Πιστωτικές Μονάδες (credits)
+										</FormLabel>
+										<Input
+											{...field}
+											id='study_credits'
+											placeholder='Εισάγετε Πιστωτικές Μονάδες (credits)'
+										/>
+										<FormErrorMessage>{form.errors.study_credits}</FormErrorMessage>
+									</FormControl>
+								)}
+							</Field>
+						</Flex>
+						<Flex w={'50%'} gap={'4'}>
+							<Field name={'study_start_date'}>
+								{({ field, form }) => (
+									<FormControl
+										isInvalid={
+											form.errors.study_start_date && form.touched.study_start_date
+										}
+										mt={'20px'}>
+										<FormLabel htmlFor='study_start_date'>Ημερομηνία Εγγραφής</FormLabel>
+										<Input
+											{...field}
+											type='date'
+											id='study_start_date'
+											placeholder='Εισάγετε Ημερομηνία Εγγραφής'
+										/>
+										<FormErrorMessage>{form.errors.study_start_date}</FormErrorMessage>
+									</FormControl>
+								)}
+							</Field>
+							<Field name={'study_end_date'}>
+								{({ field, form }) => (
+									<FormControl
+										isInvalid={form.errors.study_end_date && form.touched.study_end_date}
+										mt={'20px'}>
+										<FormLabel htmlFor='study_end_date'>Ημερομηνία Αποφοίτησης</FormLabel>
+										<Input
+											{...field}
+											type='date'
+											id='study_end_date'
+											placeholder='Εισάγετε Ημερομηνία Αποφοίτησης'
+										/>
+										<FormErrorMessage>{form.errors.study_end_date}</FormErrorMessage>
+									</FormControl>
+								)}
+							</Field>
+						</Flex>
+						<Flex w={'50%'}>
+							<Field name={'study_duration'}>
+								{({ field, form }) => (
+									<FormControl
+										isInvalid={form.errors.study_duration && form.touched.study_duration}
+										mt={'20px'}>
+										<FormLabel htmlFor='study_duration'>Διάρκεια Σπουδών</FormLabel>
+										<Select
+											{...field}
+											id='study_duration'
+											placeholder='Επιλέξτε Έτη Σπουδών'>
+											<option value='1'>1</option>
+											<option value='2'>2</option>
+											<option value='3'>3</option>
+											<option value='4'>4</option>
+											<option value='5'>5</option>
+											<option value='6'>6</option>
+										</Select>
+										<FormErrorMessage>{form.errors.study_duration}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@chakra-ui/react';
 
 const BreadcrumbWrapper = () => {
-	console.log(window.location.pathname);
 	const [pathArray, setArray] = useState([]);
 
 	useEffect(() => {
