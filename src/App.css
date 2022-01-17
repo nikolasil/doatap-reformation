@@ -1,0 +1,23 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: 'Source Sans Pro', sans-serif;
+	scroll-behavior: smooth;
+}
+
+#root {
+	height: 100%;
+}
+.App {
+	height: 100%;
+}
+
+a:hover {
+	text-decoration: none;
+}

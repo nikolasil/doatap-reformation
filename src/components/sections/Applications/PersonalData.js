@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
 	Flex,
 	Text,
@@ -9,22 +9,51 @@ import {
 	FormHelperText,
 	Divider,
 	Select,
+	Button,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 
-const handleValidation = (values) => {};
-const initialValues = {};
+const PersonalData = ({ formData, handleFormData }) => {
+	const initialValues = {
+		firstName: '',
+		lastName: '',
+		fatherName: '',
+		motherName: '',
+		gender: '',
+		birthCountry: '',
+		birthPlace: '',
+		birthDate: '',
+		residenceCountry: '',
+		residenceAddress: '',
+		postcode: '',
+		residenceCity: '',
+		residenceLocation: '',
+		residenceTel: '',
+		residenceMobile: '',
+		email: '',
+		afm: '',
+		idType: '',
+		idDate: '',
+		idNumber: '',
+		authority: '',
+		...formData,
+	};
 
-const PersonalData = () => {
+	const formRef = useRef(null);
 	const [birthCountry, setBirthCountry] = useState('GR');
 	const [residenceCountry, setResidenceCountry] = useState('GR');
 	const [idType, setIdType] = useState('Ταυτότητα');
 
+	const handleValidation = (values) => {
+		handleFormData(values);
+	};
+
 	return (
-		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} h={'100%'} pb={'50px'}>
+		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} flex={1} pb={'50px'}>
 			<Divider h={'2px'} bgColor={'gray.300'} />
 			<Formik
+				innerRef={formRef}
 				initialValues={initialValues}
 				validate={handleValidation}
 				onSubmit={(values) => {
@@ -108,12 +137,12 @@ const PersonalData = () => {
 						</Flex>
 						<Divider my={'10px'} h={'3px'} color={'gray.800'} />
 						<Flex justifyContent={'space-evenly'} gap={10}>
-							<Field name={'birth_country'}>
+							<Field name={'birthCountry'}>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.birth_country && form.touched.birth_country}
+										isInvalid={form.errors.birthCountry && form.touched.birthCountry}
 										mt={'20px'}>
-										<FormLabel htmlFor='birth_country'>Χώρα Γέννησης</FormLabel>
+										<FormLabel htmlFor='birthCountry'>Χώρα Γέννησης</FormLabel>
 										<Select
 											{...field}
 											id='authority'
@@ -124,53 +153,53 @@ const PersonalData = () => {
 												</option>
 											))}
 										</Select>
-										<FormErrorMessage>{form.errors.birth_country}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.birthCountry}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='birthplace'>
+							<Field name='birthPlace'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.birthplace && form.touched.birthplace}
+										isInvalid={form.errors.birthPlace && form.touched.birthPlace}
 										mt={'20px'}>
-										<FormLabel htmlFor='birthplace'>Πόλη Γέννησης</FormLabel>
+										<FormLabel htmlFor='birthPlace'>Πόλη Γέννησης</FormLabel>
 										<Input
 											{...field}
 											type='text'
-											id='birthplace'
+											id='birthPlace'
 											placeholder='Επιλέξτε Πόλη Γέννησης'
 										/>
-										<FormErrorMessage>{form.errors.birthplace}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.birthPlace}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='birthdate'>
+							<Field name='birthDate'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.birthdate && form.touched.birthdate}
+										isInvalid={form.errors.birthDate && form.touched.birthDate}
 										mt={'20px'}>
-										<FormLabel htmlFor='birthdate'>Ημερομηνία Γέννησης</FormLabel>
+										<FormLabel htmlFor='birthDate'>Ημερομηνία Γέννησης</FormLabel>
 										<Input
 											{...field}
 											type='date'
-											id='birthdate'
+											id='birthDate'
 											placeholder='Επιλέξτε Ημερομηνία Γέννησης'
 										/>
-										<FormErrorMessage>{form.errors.birthdate}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.birthDate}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
 						</Flex>
 						<Divider my={'10px'} h={'3px'} color={'gray.800'} />
 						<Flex justifyContent={'space-evenly'} gap={10} w={'50%'}>
-							<Field name='residence_country'>
+							<Field name='residenceCountry'>
 								{({ field, form }) => (
 									<FormControl
 										isInvalid={
-											form.errors.residence_country && form.touched.residence_country
+											form.errors.residenceCountry && form.touched.residenceCountry
 										}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_country'>Χώρα Διαμονής</FormLabel>
+										<FormLabel htmlFor='residenceCountry'>Χώρα Διαμονής</FormLabel>
 										<Select
 											{...field}
 											id='birth_country'
@@ -181,25 +210,25 @@ const PersonalData = () => {
 												</option>
 											))}
 										</Select>
-										<FormErrorMessage>{form.errors.residence_country}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.residenceCountry}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='residence_address'>
+							<Field name='residenceAddress'>
 								{({ field, form }) => (
 									<FormControl
 										isInvalid={
-											form.errors.residence_address && form.touched.residence_address
+											form.errors.residenceAddress && form.touched.residenceAddress
 										}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_address'>Διεύθυνση κατοικίας</FormLabel>
+										<FormLabel htmlFor='residenceAddress'>Διεύθυνση κατοικίας</FormLabel>
 										<Input
 											{...field}
 											type='text'
-											id='residence_address'
+											id='residenceAddress'
 											placeholder='Επιλέξτε Διεύθυνση Κατοικίας'
 										/>
-										<FormErrorMessage>{form.errors.residence_address}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.residenceAddress}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
@@ -216,73 +245,68 @@ const PersonalData = () => {
 									</FormControl>
 								)}
 							</Field>
-							<Field name='residence_city'>
+							<Field name='residenceCity'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.residence_city && form.touched.residence_city}
+										isInvalid={form.errors.residenceCity && form.touched.residenceCity}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_city'>Πόλη</FormLabel>
-										<Input
-											{...field}
-											type='text'
-											id='residence_city'
-											placeholder='Πόλη'
-										/>
-										<FormErrorMessage>{form.errors.residence_city}</FormErrorMessage>
+										<FormLabel htmlFor='residenceCity'>Πόλη</FormLabel>
+										<Input {...field} type='text' id='residenceCity' placeholder='Πόλη' />
+										<FormErrorMessage>{form.errors.residenceCity}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
 						</Flex>
 						<Flex justifyContent={'space-evenly'} gap={10}>
-							<Field name='residence_location'>
+							<Field name='residenceLocation'>
 								{({ field, form }) => (
 									<FormControl
 										isInvalid={
-											form.errors.residence_location && form.touched.residence_location
+											form.errors.residenceLocation && form.touched.residenceLocation
 										}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_location'>Περιοχή</FormLabel>
+										<FormLabel htmlFor='residenceLocation'>Περιοχή</FormLabel>
 										<Input
 											{...field}
 											type='text'
-											id='residence_location'
+											id='residenceLocation'
 											placeholder='Περιοχή'
 										/>
-										<FormErrorMessage>{form.errors.residence_location}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.residenceLocation}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='residence_tel'>
+							<Field name='residenceTel'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.residence_tel && form.touched.residence_tel}
+										isInvalid={form.errors.residenceTel && form.touched.residenceTel}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_tel'>Τηλέφωνο</FormLabel>
+										<FormLabel htmlFor='residenceTel'>Τηλέφωνο</FormLabel>
 										<Input
 											{...field}
 											type='tel'
-											id='residence_tel'
+											id='residenceTel'
 											placeholder='Τηλέφωνο'
 										/>
-										<FormErrorMessage>{form.errors.residence_tel}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.residenceTel}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='residence_mobile'>
+							<Field name='residenceMobile'>
 								{({ field, form }) => (
 									<FormControl
 										isInvalid={
-											form.errors.residence_mobile && form.touched.residence_mobile
+											form.errors.residenceMobile && form.touched.residenceMobile
 										}
 										mt={'20px'}>
-										<FormLabel htmlFor='residence_mobile'>Κινητό</FormLabel>
+										<FormLabel htmlFor='residenceMobile'>Κινητό</FormLabel>
 										<Input
 											{...field}
 											type='tel'
-											id='residence_mobile'
+											id='residenceMobile'
 											placeholder='Κινητό'
 										/>
-										<FormErrorMessage>{form.errors.residence_mobile}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.residenceMobile}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
@@ -310,67 +334,67 @@ const PersonalData = () => {
 							</Field>
 						</Flex>
 						<Flex justifyContent={'space-evenly'} gap={10}>
-							<Field name='id_type'>
+							<Field name='idType'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.id_type && form.touched.id_type}
+										isInvalid={form.errors.idType && form.touched.idType}
 										mt={'20px'}>
-										<FormLabel htmlFor='id_type'>Τύπος Ταυτοποίησης</FormLabel>
+										<FormLabel htmlFor='idType'>Τύπος Ταυτοποίησης</FormLabel>
 										<Select
 											{...field}
-											id='id_type'
+											id='idType'
 											value={idType}
 											onChange={(e) => setIdType(e.target.value)}>
 											<option value='Ταυτότητα'>Ταυτότητα</option>
 											<option value='Διαβατήριο'>Διαβατήριο</option>
 										</Select>
-										<FormErrorMessage>{form.errors.id_type}</FormErrorMessage>
+										<FormErrorMessage>{form.errors.idType}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name='id_number'>
+							<Field name='idNumber'>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.id_number && form.touched.id_number}
+										isInvalid={form.errors.idNumber && form.touched.idNumber}
 										mt={'20px'}>
-										<FormLabel htmlFor='id_number'>Αριθμός Ταυτοποίησης</FormLabel>
-										<Input {...field} type='text' id='id_number' placeholder='Αριθμός' />
-										<FormErrorMessage>{form.errors.id_number}</FormErrorMessage>
+										<FormLabel htmlFor='idNumber'>Αριθμός Ταυτοποίησης</FormLabel>
+										<Input {...field} type='text' id='idNumber' placeholder='Αριθμός' />
+										<FormErrorMessage>{form.errors.idNumber}</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
 
 							{idType === 'Ταυτότητα' ? (
-								<Field name='id_date'>
+								<Field name='idDate'>
 									{({ field, form }) => (
 										<FormControl
-											isInvalid={form.errors.id_date && form.touched.id_date}
+											isInvalid={form.errors.idDate && form.touched.idDate}
 											mt={'20px'}>
-											<FormLabel htmlFor='id_date'>Ημερομηνία Έκδοσης</FormLabel>
+											<FormLabel htmlFor='idDate'>Ημερομηνία Έκδοσης</FormLabel>
 											<Input
 												{...field}
 												type='date'
-												id='id_date'
+												id='idDate'
 												placeholder='Ημερομηνία Έκδοσης'
 											/>
-											<FormErrorMessage>{form.errors.id_date}</FormErrorMessage>
+											<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
 										</FormControl>
 									)}
 								</Field>
 							) : (
-								<Field name='id_date'>
+								<Field name='idDate'>
 									{({ field, form }) => (
 										<FormControl
-											isInvalid={form.errors.id_date && form.touched.id_date}
+											isInvalid={form.errors.idDate && form.touched.idDate}
 											mt={'20px'}>
-											<FormLabel htmlFor='id_date'>Ημερομηνία Λήξης</FormLabel>
+											<FormLabel htmlFor='idDate'>Ημερομηνία Λήξης</FormLabel>
 											<Input
 												{...field}
 												type='date'
-												id='id_date'
+												id='idDate'
 												placeholder='Ημερομηνία Λήξης'
 											/>
-											<FormErrorMessage>{form.errors.id_date}</FormErrorMessage>
+											<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
 										</FormControl>
 									)}
 								</Field>
@@ -419,6 +443,12 @@ const PersonalData = () => {
 					</Form>
 				)}
 			</Formik>
+			{/* <Flex mt={'30px'} justifyContent={'center'} gap={4}>
+				<Button size={'lg'}>Previous</Button>
+				<Button size={'lg'} colorScheme={'blue'}>
+					Next
+				</Button>
+			</Flex> */}
 		</Flex>
 	);
 };

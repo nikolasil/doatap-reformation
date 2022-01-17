@@ -9,6 +9,8 @@ import Header from './components/ui/Header';
 import Applications from './components/layout/Applications/Applications';
 import NewApplication from './components/layout/Applications/NewApplication';
 
+import './App.css';
+
 const theme = extendTheme({
 	colors: {
 		gray: {
@@ -30,7 +32,7 @@ function App() {
 		<div className='App'>
 			<ChakraProvider theme={theme}>
 				<Router>
-					<Flex flexDir={'column'}>
+					<Flex flexDir={'column'} h={'100%'}>
 						<Header />
 						<Navbar />
 						<Routes>

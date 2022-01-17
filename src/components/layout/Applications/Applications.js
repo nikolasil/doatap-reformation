@@ -3,12 +3,13 @@ import { Flex, Text, Button, Heading } from '@chakra-ui/react';
 import Breadcrumb from '../../ui/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import Title from '../../ui/Title';
+
 const Applications = () => {
 	const navigate = useNavigate();
 	return (
-		<Flex flexDir={'column'}>
+		<Flex flexDir={'column'} h={'100%'}>
 			<Title title={'Αιτήσεις'} />
-			<Flex bg={'white'} px={'18vw'} py={'5vh'} h={'73vh'}>
+			<Flex bg={'#f5f5f5'} px={'18vw'} py={'5vh'} flex={1}>
 				<Flex bg={'gray.100'} w={'100%'} rounded={'md'} flexDir={'column'}>
 					<Flex alignItems={'center'} justifyContent={'space-between'} m={'30px'}>
 						<Button

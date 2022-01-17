@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
 	return (
 		<Flex
-			h={'6vh'}
+			h={'8vh'}
 			bgColor={'blue.800'}
 			color={'white'}
 			alignItems={'center'}
 			px={'20px'}
+			py={'10px'}
 			fontSize={'18px'}
 			justifyContent={'space-evenly'}>
 			<Link to={'/applications'}>

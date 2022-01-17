@@ -11,7 +11,7 @@ const Header = () => {
 	};
 
 	return (
-		<Flex bg={'gray.100'} h={'7vh'} alignItems={'center'} px={'20px'} justifyContent={'space-between'}>
+		<Flex bg={'gray.100'} h={'7vh'} alignItems={'center'} p={'25px'} justifyContent={'space-between'}>
 			<Link to={'/'}>
 				<Image src={'/vectors/logo.png'} w={'172px'} h={'52px'} />
 			</Link>

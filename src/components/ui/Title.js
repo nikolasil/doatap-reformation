@@ -4,7 +4,7 @@ import Breadcrumb from './Breadcrumb';
 
 const Title = ({ title }) => {
 	return (
-		<Flex h={'8vh'} bg={'blue.700'} flexDir={'column'} color={'white'} alignItems={'center'}>
+		<Flex h={'8vh'} bg={'blue.700'} flexDir={'column'} color={'white'} alignItems={'center'} pb={'20px'}>
 			<Divider />
 			<Flex w={'100%'}>
 				<Breadcrumb />
