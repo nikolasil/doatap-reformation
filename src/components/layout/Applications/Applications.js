@@ -9,8 +9,8 @@ const Applications = () => {
 	return (
 		<Flex flexDir={'column'} h={'100%'}>
 			<Title title={'Αιτήσεις'} />
-			<Flex bg={'#f5f5f5'} px={'18vw'} py={'5vh'} flex={1}>
-				<Flex bg={'gray.100'} w={'100%'} rounded={'md'} flexDir={'column'}>
+			<Flex bg={'#e9edf0'} px={'18vw'} py={'5vh'} flex={1}>
+				<Flex bg={'gray.50'} w={'100%'} rounded={'md'} flexDir={'column'} boxShadow={'lg'}>
 					<Flex alignItems={'center'} justifyContent={'space-between'} m={'30px'}>
 						<Button
 							colorScheme={'blue'}

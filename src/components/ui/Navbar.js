@@ -1,35 +1,65 @@
 import React from 'react';
-import { Flex, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Flex, Text, Link } from '@chakra-ui/react';
+import { FaPencilAlt } from 'react-icons/fa';
+import { HiSpeakerphone } from 'react-icons/hi';
+import { AiOutlineInfoCircle, AiFillQuestionCircle } from 'react-icons/ai';
+import { RiContactsFill } from 'react-icons/ri';
+import { FiLink } from 'react-icons/fi';
 
+const linkProps = {
+	_hover: {
+		textDecoration: 'none',
+		borderBottom: '2px solid white',
+	},
+};
 const Navbar = () => {
 	return (
 		<Flex
-			h={'8vh'}
+			minH={'7vh'}
+			maxH={'7vh'}
 			bgColor={'blue.800'}
 			color={'white'}
 			alignItems={'center'}
 			px={'20px'}
-			py={'10px'}
+			py={'20px'}
 			fontSize={'18px'}
+			transition={'all 1s ease-in-out'}
 			justifyContent={'space-evenly'}>
-			<Link to={'/applications'}>
-				<Text>Αιτήσεις</Text>
+			<Link href={'/applications'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<FaPencilAlt size={'0.8em'} />
+					<Text ml={'5px'}>Αιτήσεις</Text>
+				</Flex>
 			</Link>
-			<Link to={'/announcements'}>
-				<Text>Ανακοινώσεις</Text>
+			<Link href={'/announcements'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<HiSpeakerphone size={'0.8em'} />
+					<Text ml={'5px'}>Ανακοινώσεις</Text>
+				</Flex>
 			</Link>
-			<Link to={'/info'}>
-				<Text>Πληροφορίες</Text>
+			<Link href={'/info'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<AiOutlineInfoCircle size={'0.8em'} />
+					<Text ml={'5px'}>Πληροφορίες</Text>
+				</Flex>
 			</Link>
-			<Link to={'/faq'}>
-				<Text>Συχνές Ερωτήσεις</Text>
+			<Link href={'/faq'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<AiFillQuestionCircle size={'0.8em'} />
+					<Text ml={'5px'}>Συχνές Ερωτήσεις</Text>
+				</Flex>
 			</Link>
-			<Link to={'/contact'}>
-				<Text>Επικοινωνία</Text>
+			<Link href={'/contact'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<RiContactsFill size={'0.8em'} />
+					<Text ml={'5px'}>Επικοινωνία</Text>
+				</Flex>
 			</Link>
-			<Link to={'/important-links'}>
-				<Text>Σημαντικοί Σύνδεσμοι</Text>
+			<Link href={'/important-links'} {...linkProps}>
+				<Flex alignItems={'center'}>
+					<FiLink size={'0.8em'} />
+					<Text ml={'5px'}>Σημαντικοί Σύνδεσμοι</Text>
+				</Flex>
 			</Link>
 		</Flex>
 	);
