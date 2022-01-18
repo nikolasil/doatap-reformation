@@ -34,7 +34,7 @@ const Landing = () => {
 				εξέλιξη στην Ελλάδα{' '}
 			</Heading>
 
-			<Button mt={'20px'} borderRadius={'16px'} w={'180px'} h={'60px'} {...newApplicationButtonProps}>
+			<Button mt={'20px'} borderRadius={'16px'} w={'200px'} h={'70px'} {...newApplicationButtonProps}>
 				<Text fontSize={'24px'} fontWeight={'500'}>
 					Νέα Αίτηση
 				</Text>
