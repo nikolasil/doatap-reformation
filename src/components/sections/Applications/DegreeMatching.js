@@ -10,6 +10,7 @@ import {
 	Divider,
 	Select,
 	RadioGroup,
+	Button,
 	Stack,
 	Radio,
 } from '@chakra-ui/react';
@@ -17,7 +18,7 @@ import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 import universities from '../../../data/form/universities.json';
 
-const DegreeTitle = ({ formData, handleFormData }) => {
+const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 	const [matchStudyCountry, setMatchStudyCountry] = useState('GR');
 	const initialValues = {
 		matchDegreeType: '',
@@ -35,12 +36,7 @@ const DegreeTitle = ({ formData, handleFormData }) => {
 	return (
 		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} pb={'50px'} flex={1}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
-			<Formik
-				initialValues={initialValues}
-				validate={handleValidation}
-				onSubmit={(values) => {
-					console.log(values);
-				}}>
+			<Formik initialValues={initialValues} validate={handleValidation} onSubmit={onSubmit}>
 				{(props) => (
 					<Form>
 						<Text fontSize={'18x'} fontWeight={'500'}>
@@ -152,6 +148,11 @@ const DegreeTitle = ({ formData, handleFormData }) => {
 									</FormControl>
 								)}
 							</Field>
+						</Flex>
+						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
+							<Button colorScheme={'blue'} rounded={'md'} type='submit'>
+								Υποβολή
+							</Button>
 						</Flex>
 					</Form>
 				)}

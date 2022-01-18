@@ -13,12 +13,13 @@ import {
 	RadioGroup,
 	Stack,
 	Radio,
+	Button,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import 'react-dropzone-uploader/dist/styles.css';
 import Dropzone from 'react-dropzone-uploader';
 
-const Attached = ({ formData, handleFormData, status }) => {
+const Attached = ({ formData, handleFormData, status, onSubmit }) => {
 	const initialValues = {};
 	const handleValidation = (values) => {};
 
@@ -49,12 +50,7 @@ const Attached = ({ formData, handleFormData, status }) => {
 			mb={'50px'}
 			display={status !== 'attached' && 'none'}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
-			<Formik
-				initialValues={initialValues}
-				validate={handleValidation}
-				onSubmit={(values) => {
-					console.log(values);
-				}}>
+			<Formik initialValues={initialValues} validate={handleValidation} onSubmit={onSubmit}>
 				{(props) => (
 					<Flex flexDir={'column'} alignItems={'center'} rounded={'md'} flex={1} w={'100%'}>
 						<Form>
@@ -149,6 +145,11 @@ const Attached = ({ formData, handleFormData, status }) => {
 									</FormControl>
 								)}
 							</Field>
+							<Flex mt={'30px'} justifyContent={'center'} gap={4}>
+								<Button colorScheme={'blue'} rounded={'md'} type='submit'>
+									Υποβολή
+								</Button>
+							</Flex>
 						</Form>
 					</Flex>
 				)}

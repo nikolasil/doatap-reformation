@@ -1,4 +1,5 @@
 import * as types from '../actions/types';
+import setAuthHeader from '../utils/setAuthHeader';
 
 const initialState = {
 	isLoading: false,
@@ -24,6 +25,8 @@ export default (state = initialState, action) => {
 
 		case types.LOGIN_USER_SUCCESS:
 		case types.SIGNUP_USER_SUCCESS: {
+			localStorage.setItem('token', payload.token);
+			setAuthHeader();
 			return {
 				...state,
 				isLoading: false,

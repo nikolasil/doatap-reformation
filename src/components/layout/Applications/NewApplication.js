@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 import StatusBar from '../../sections/Applications/StatusBar';
 import Title from '../../ui/Title';
+import { useSelector, useDispatch } from 'react-redux';
+import { submitNewApplication } from '../../../actions/applications/applications';
 
 import PersonalData from '../../sections/Applications/PersonalData';
 import DegreeTitle from '../../sections/Applications/DegreeTitle';
@@ -9,20 +11,24 @@ import DegreeMatching from '../../sections/Applications/DegreeMatching';
 import Attached from '../../sections/Applications/Attached';
 
 const NewApplication = () => {
+	const dispatch = useDispatch();
 	const [activeStatus, setActiveStatus] = useState('personal-data');
 	const [formData, setFormData] = useState({});
+
+	const handleSubmit = () => {
+		console.log(formData);
+		dispatch(submitNewApplication(formData));
+	};
+
 	const formProps = {
 		formData: formData,
 		handleFormData: (values) => {
-			console.log('formData', {
-				...formData,
-				...values,
-			});
 			setFormData({
 				...formData,
 				...values,
 			});
 		},
+		onSubmit: handleSubmit,
 	};
 	const renderFormStatus = () => {
 		switch (activeStatus) {

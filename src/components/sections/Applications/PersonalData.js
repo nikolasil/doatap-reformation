@@ -14,7 +14,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 
-const PersonalData = ({ formData, handleFormData }) => {
+const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 	const initialValues = {
 		firstName: '',
 		lastName: '',
@@ -47,6 +47,69 @@ const PersonalData = ({ formData, handleFormData }) => {
 
 	const handleValidation = (values) => {
 		handleFormData(values);
+		const errors = {};
+
+		if (!values.firstName) {
+			errors.firstName = 'Το όνομα είναι υποχρεωτικό';
+		}
+		if (!values.lastName) {
+			errors.lastName = 'Το επώνυμο είναι υποχρεωτικό';
+		}
+		if (!values.fatherName) {
+			errors.fatherName = 'Το πατρώνυμο είναι υποχρεωτικό';
+		}
+		if (!values.motherName) {
+			errors.motherName = 'Το μητρώνυμο είναι υποχρεωτικό';
+		}
+		if (!values.birthCountry) {
+			errors.birthCountry = 'Η Χώρα Γέννησης είναι υποχρεωτική';
+		}
+		if (!values.birthPlace) {
+			errors.birthPlace = 'Η πόλη Γέννησης είναι υποχρεωτική';
+		}
+		if (!values.birthDate) {
+			errors.birthDate = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceCountry) {
+			errors.residenceCountry = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceAddress) {
+			errors.residenceAddress = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.postcode) {
+			errors.postcode = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceCity) {
+			errors.residenceCity = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceLocation) {
+			errors.residenceLocation = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceTel) {
+			errors.residenceTel = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.residenceMobile) {
+			errors.residenceMobile = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.email) {
+			errors.email = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.afm) {
+			errors.afm = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.idType) {
+			errors.idType = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.idDate) {
+			errors.idDate = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.idNumber) {
+			errors.idNumber = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		if (!values.authority) {
+			errors.authority = 'Το πεδίο είναι υποχρεωτικό';
+		}
+		return errors;
 	};
 
 	return (
@@ -56,9 +119,7 @@ const PersonalData = ({ formData, handleFormData }) => {
 				innerRef={formRef}
 				initialValues={initialValues}
 				validate={handleValidation}
-				onSubmit={(values) => {
-					console.log(values);
-				}}>
+				onSubmit={onSubmit}>
 				{(props) => (
 					<Form>
 						<Flex justifyContent={'space-evenly'} gap={10}>
@@ -440,15 +501,14 @@ const PersonalData = ({ formData, handleFormData }) => {
 								</Field>
 							)}
 						</Flex>
+						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
+							<Button colorScheme={'blue'} rounded={'md'} type='submit'>
+								Υποβολή
+							</Button>
+						</Flex>
 					</Form>
 				)}
 			</Formik>
-			{/* <Flex mt={'30px'} justifyContent={'center'} gap={4}>
-				<Button size={'lg'}>Previous</Button>
-				<Button size={'lg'} colorScheme={'blue'}>
-					Next
-				</Button>
-			</Flex> */}
 		</Flex>
 	);
 };
