@@ -19,10 +19,10 @@ import {
 import Title from '../../ui/Title';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../../../actions/auth/auth';
+import { signupUser } from '../../../actions/auth/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const toast = useToast();
@@ -31,11 +31,16 @@ const Login = () => {
 	const onSubmit = (values) => {
 		console.log(values);
 		setHasSubmitted(true);
-		dispatch(loginUser(values));
+		dispatch(signupUser(values));
 	};
 	const handleValidation = (values) => {
 		const errors = {};
-
+		if (!values.firstName) {
+			errors.firstName = 'Το όνομα είναι υποχρεωτικό';
+		}
+		if (!values.lastName) {
+			errors.lastName = 'Το επώνυμο είναι υποχρεωτικό';
+		}
 		if (!values.email) {
 			errors.email = 'Η διεύθυνση email είναι υποχρεωτική';
 		} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
@@ -52,7 +57,7 @@ const Login = () => {
 		if (!auth.isLoading && hasSubmitted) {
 			if (auth.isAuthenticated) {
 				toast({
-					title: 'Επιτυχής Σύνδεση',
+					title: 'Επιτυχής εγγραφή',
 					status: 'success',
 					duration: 4000,
 					isClosable: true,
@@ -71,21 +76,17 @@ const Login = () => {
 	}, [auth]);
 	return (
 		<Flex flexDir={'column'} h={'100%'} bg={useColorModeValue('gray.50', 'gray.800')}>
-			<Title title={'Σύνδεση'} />
-			<Flex flexDir={'column'} justifyContent={'center'} alignItems={'center'} p={'20px'} mt={'20px'}>
+			<Title title={'Δημιουργία Λογαριασμού'} />
+			<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 				<Stack align={'center'}>
-					<Heading fontSize={'4xl'}>Φόρμα Σύνδεσης</Heading>
+					<Heading fontSize={'4xl'}>Φόρμα Εγγραφής</Heading>
 				</Stack>
-				<Box
-					rounded={'lg'}
-					w={'30vw'}
-					bg={useColorModeValue('white', 'gray.700')}
-					boxShadow={'lg'}
-					p={'20px'}
-					mt={'40px'}>
+				<Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>
 					<Formik
 						initialValues={{
 							email: '',
+							firstName: '',
+							lastName: '',
 							password: '',
 						}}
 						validate={handleValidation}
@@ -95,6 +96,39 @@ const Login = () => {
 						}}>
 						{(props) => (
 							<Form>
+								<Flex>
+									<Field name='firstName'>
+										{({ field, form }) => (
+											<FormControl
+												isInvalid={form.errors.firstName && form.touched.firstName}>
+												<FormLabel htmlFor='firstName'>Όνομα</FormLabel>
+												<Input
+													{...field}
+													type='text'
+													id='firstName'
+													placeholder='Όνομα'
+												/>
+												<FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
+											</FormControl>
+										)}
+									</Field>
+									<Field name='lastName'>
+										{({ field, form }) => (
+											<FormControl
+												isInvalid={form.errors.lastName && form.touched.lastName}
+												ml={'20px'}>
+												<FormLabel htmlFor='lastName'>Επώνυμο</FormLabel>
+												<Input
+													{...field}
+													type='text'
+													id='lastName'
+													placeholder='Επώνυμο'
+												/>
+												<FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+											</FormControl>
+										)}
+									</Field>
+								</Flex>
 								<Field name='email'>
 									{({ field, form }) => (
 										<FormControl
@@ -118,6 +152,12 @@ const Login = () => {
 												id='password'
 												placeholder='Κωδικός'
 											/>
+											{!form.values.password && (
+												<FormHelperText>
+													Επιλέξτε έναν κωδικό πρόσβασης που περιέχει τουλάχιστον 8
+													χαρακτήρες
+												</FormHelperText>
+											)}
 											<FormErrorMessage>{form.errors.password}</FormErrorMessage>
 										</FormControl>
 									)}
@@ -130,16 +170,16 @@ const Login = () => {
 										isLoading={auth.isLoading}
 										isDisabled={!props.dirty || !props.isValid || props.isValidating}
 										type='submit'>
-										Σύνδεση
+										Εγγραφή
 									</Button>
 								</Box>
 							</Form>
 						)}
 					</Formik>
 				</Box>
-			</Flex>
+			</Stack>
 		</Flex>
 	);
 };
 
-export default Login;
+export default Register;
