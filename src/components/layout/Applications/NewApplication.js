@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Flex, Text, useToast } from '@chakra-ui/react';
 import StatusBar from '../../sections/Applications/StatusBar';
 import Title from '../../ui/Title';
@@ -11,6 +11,50 @@ import DegreeTitle from '../../sections/Applications/DegreeTitle';
 import DegreeMatching from '../../sections/Applications/DegreeMatching';
 import Attached from '../../sections/Applications/Attached';
 import { getApplication } from '../../../actions/applications/applications';
+import { Formik, Form, Field } from 'formik';
+
+let init = {
+	//Personal Data
+	firstName: '',
+	lastName: '',
+	fatherName: '',
+	motherName: '',
+	gender: '',
+	birthCountry: '',
+	birthPlace: '',
+	birthDate: '',
+	residenceCountry: '',
+	residenceAddress: '',
+	postcode: '',
+	residenceCity: '',
+	residenceLocation: '',
+	residenceTel: '',
+	residenceMobile: '',
+	email: '',
+	afm: '',
+	idType: '',
+	idDate: '',
+	idNumber: '',
+	authority: '',
+	//Degree Title
+	degreeType: '',
+	studyType: '',
+	studyCountry: '',
+	studyCountryUni: '',
+	studyTitle: '',
+	studyCredits: '',
+	studyStartDate: '',
+	studyEndDate: '',
+	studyDuration: '',
+	//degree-matching
+	matchDegreeType: '',
+	matchStudyType: '',
+	matchStudyCountry: '',
+	matchStudyCountryUni: '',
+	matchStudyTitle: '',
+	//Attached
+	attachments: [],
+};
 
 const NewApplication = ({ exists = false }) => {
 	const toast = useToast();
@@ -22,14 +66,8 @@ const NewApplication = ({ exists = false }) => {
 	const [activeStatus, setActiveStatus] = useState('personal-data');
 	const [formData, setFormData] = useState({});
 	const [fetched, setFetched] = useState(false);
-	const [lastActiveStatus, setLastActiveStatus] = useState();
-	const [validated, setValidated] = useState({
-		personalData: false,
-		degreeTitle: false,
-		degreeMatching: false,
-		attached: false,
-	});
-
+	const [enableSubmit, setEnableSubmit] = useState(false);
+	const [initialValues, setInitialValues] = useState(init);
 	useEffect(() => {
 		if (exists) {
 			dispatch(getApplication(params.id));
@@ -37,7 +75,7 @@ const NewApplication = ({ exists = false }) => {
 	}, []);
 
 	useEffect(() => {
-		if (!application.isLoading) {
+		if (!application.isLoading && exists) {
 			if (application.error) {
 				toast({
 					title: 'Δεν βρέθηκε η αίτηση',
@@ -47,8 +85,8 @@ const NewApplication = ({ exists = false }) => {
 				});
 				return navigate('/account');
 			} else if (application.isFetched) {
-				setFormData({ ...formData, ...application.application });
-				setFetched(true);
+				setInitialValues(application.application);
+				console.log(formRef.current, initialValues);
 			}
 		}
 	}, [application]);
@@ -60,71 +98,85 @@ const NewApplication = ({ exists = false }) => {
 	}, [application]);
 
 	const handleSave = () => {
-		setLastActiveStatus(activeStatus);
-		console.log('save', activeStatus);
+		console.log('save', activeStatus, formRef.current.values);
 
-		dispatch(submitNewApplication(formData));
+		dispatch(submitNewApplication(formRef.current.values));
 	};
 	const handleSubmit = () => {
-		setLastActiveStatus(activeStatus);
-		dispatch(submitNewApplication({ ...formData, status: 1 }));
+		dispatch(submitNewApplication({ ...formRef.current.values, status: 1 }));
+	};
+
+	const handleValidation = () => {
+		const errors = {};
+		const values = formRef.current.values;
+		console.log(values);
+
+		if (!values.firstName) {
+			errors.firstName = 'Το όνομα είναι υποχρεωτικό';
+		}
+		if (!values.lastName) {
+			errors.lastName = 'Το επώνυμο είναι υποχρεωτικό';
+		}
+		if (!values.fatherName) {
+			errors.fatherName = 'Το πατρώνυμο είναι υποχρεωτικό';
+		}
+
+		if (!values.attachments.length === 0) {
+			errors.attachments = 'Πρέπει να ανεβάσετε τουλάχιστον ένα αρχείο';
+		}
+
+		if (Object.keys(errors).length === 0) {
+			setEnableSubmit(true);
+		}
+		console.log(errors);
+
+		return errors;
+	};
+
+	const handleChangeStatus = ({ meta, file }, status) => {
+		if (status === 'done') {
+			formRef.current.values.attachments.push(file);
+		}
 	};
 
 	const formProps = {
-		formData: formData,
-		handleFormData: (values) => {
-			console.log('values', values);
-			const updatedFormData = { ...formData, ...values };
-
-			setFormData((prev) => ({ ...prev, ...values }));
-		},
-		validated,
-		setValidated: (subValidation) => {
-			setValidated((prev) => ({ ...prev, ...subValidation }));
-		},
 		onSubmit: handleSubmit,
 		saveForm: handleSave,
+		status: activeStatus,
 	};
-	const renderFormStatus = () => {
-		let active;
-		if (lastActiveStatus) {
-			active = lastActiveStatus;
-			setLastActiveStatus(null);
-		} else {
-			active = activeStatus;
-		}
 
-		switch (active) {
-			case 'personal-data':
-				return <PersonalData {...formProps} />;
-			case 'degree-title':
-				return <DegreeTitle {...formProps} />;
-			case 'degree-matching':
-				return <DegreeMatching {...formProps} />;
-		}
-	};
+	const formRef = useRef(null);
 
 	return (
 		<Flex flexDir={'column'} bgColor={'gray.50'} flex={1}>
 			<Title title={'Νέα Αίτηση'} />
 			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
-			{exists ? (
-				fetched && (
-					<div>
-						<PersonalData {...formProps} status={activeStatus} />
-						<DegreeTitle {...formProps} status={activeStatus} />
-						<DegreeMatching {...formProps} status={activeStatus} />
-						<Attached {...formProps} status={activeStatus} />
-					</div>
-				)
-			) : (
-				<div>
-					<PersonalData {...formProps} status={activeStatus} />
-					<DegreeTitle {...formProps} status={activeStatus} />
-					<DegreeMatching {...formProps} status={activeStatus} />
-					<Attached {...formProps} status={activeStatus} />
-				</div>
-			)}
+
+			<div>
+				<Formik
+					enableReinitialize
+					innerRef={formRef}
+					initialValues={initialValues}
+					validate={handleValidation}
+					validateOnMount
+					onSubmit={(values) => {
+						console.log(formRef.current);
+					}}>
+					{(props) => (
+						<Form>
+							<PersonalData {...formProps} />
+							<DegreeTitle {...formProps} />
+							<DegreeMatching {...formProps} />
+							<Attached
+								{...formProps}
+								handleChangeStatus={handleChangeStatus}
+								enableSubmit={enableSubmit}
+								initialAttachments={initialValues.attachments}
+							/>
+						</Form>
+					)}
+				</Formik>
+			</div>
 		</Flex>
 	);
 };

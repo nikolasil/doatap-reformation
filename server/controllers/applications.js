@@ -17,18 +17,6 @@ exports.createApplication = async (req, res) => {
 				belongsTo: req.user._id,
 			});
 		}
-		// const dirOfApplication = './applications/' + result._id;
-
-		// if (!fs.existsSync(dirOfApplication)) {
-		// 	fs.mkdirSync(dirOfApplication, { recursive: true });
-		// }
-
-		// if (req.files) {
-		// 	req.files.forEach((file) => {
-		// 		console.log(file);
-		// 		fs.writeFileSync(dirOfApplication + '/' + file.originalname, file.buffer);
-		// 	});
-		// }
 		application.attachments = req.files;
 		const result = await application.save();
 
