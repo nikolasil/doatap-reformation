@@ -5,8 +5,9 @@ export const submitNewApplication = (data) => async (dispatch) => {
 	const formData = new FormData();
 	for (let key in data) {
 		if (key === 'attachments') {
-			Object.keys(data[key]).forEach((category) => {
-				formData.append(key, data[key][category]);
+			console.log(data[key]);
+			data[key].forEach((file) => {
+				formData.append('attachments', file);
 			});
 		} else {
 			formData.append(key, data[key]);

@@ -18,7 +18,7 @@ import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 import universities from '../../../data/form/universities.json';
 
-const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
+const DegreeTitle = ({ formData, handleFormData, onSubmit, saveForm, validated, setValidated, status }) => {
 	const [studyCountry, setStudyCountry] = useState('GR');
 	const initialValues = {
 		degreeType: '',
@@ -34,13 +34,36 @@ const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 	};
 
 	const handleValidation = (values) => {
+		const errors = {};
 		handleFormData(values);
+
+		if (Object.keys(errors).length === 0) {
+			setValidated({
+				degreeTitle: true,
+			});
+		} else {
+			setValidated({
+				...validated,
+				degreeTitle: false,
+			});
+		}
+		return errors;
 	};
 
 	return (
-		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} pb={'50px'} flex={1}>
+		<Flex
+			flexDir={'column'}
+			px={'50px'}
+			bgColor={'#fcfcfc'}
+			pb={'50px'}
+			flex={1}
+			display={status !== 'degree-title' && 'none'}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
-			<Formik initialValues={initialValues} validate={handleValidation} onSubmit={onSubmit}>
+			<Formik
+				initialValues={initialValues}
+				validate={handleValidation}
+				validateOnMount
+				onSubmit={onSubmit}>
 				{(props) => (
 					<Form>
 						<Text fontSize={'18x'} fontWeight={'500'}>
@@ -218,9 +241,9 @@ const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 								)}
 							</Field>
 						</Flex>
-						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
-							<Button colorScheme={'blue'} rounded={'md'} type='submit'>
-								Υποβολή
+						<Flex mt={'50px'} justifyContent={'right'} gap={4}>
+							<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+								Προσωρινή Αποθήκευση
 							</Button>
 						</Flex>
 					</Form>

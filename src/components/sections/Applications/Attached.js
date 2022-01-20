@@ -19,134 +19,96 @@ import { Formik, Form, Field } from 'formik';
 import 'react-dropzone-uploader/dist/styles.css';
 import Dropzone from 'react-dropzone-uploader';
 
-const Attached = ({ formData, handleFormData, status, onSubmit }) => {
-	const initialValues = {};
-	const handleValidation = (values) => {};
+const Attached = ({ formData, handleFormData, status, onSubmit, saveForm, validated, setValidated }) => {
+	const [enableSubmit, setEnableSubmit] = useState(false);
+	const files = formData.attachments.map(
+		(attachment) => new File([attachment.file], attachment.originalname, { type: attachment.type })
+	);
+	const [initialFiles, setInitialFiles] = useState(files || []);
+
+	useEffect(() => {
+		Object.keys(validated).every((key) => {
+			return validated[key] === true;
+		});
+		setEnableSubmit(Object.keys(validated).every((key) => validated[key] === true));
+	}, [validated]);
+
+	const handleValidation = (values) => {
+		const errors = {};
+		handleFormData(values);
+
+		return errors;
+	};
 
 	const getUploadParams = ({ meta }) => {
 		return { url: 'https://httpbin.org/post' };
 	};
 
-	const handleChangeStatus = ({ meta, file }, status, category) => {
-		console.log(meta);
-
+	const handleChangeStatus = ({ meta, file }, status) => {
 		if (status === 'done') {
+			console.log('newform', {
+				...formData,
+				attachments: [...formData.attachments, file],
+			});
 			handleFormData({
 				...formData,
-				attachments: {
-					...formData.attachments,
-					[category]: file,
-				},
+				attachments: [...formData.attachments, file],
 			});
+			setValidated({ ...validated, attached: true });
 		}
 	};
-	useEffect(() => {}, []);
 
 	return (
-		<Flex
-			flexDir={'column'}
-			bgColor={'#fcfcfc'}
-			h={'100%'}
-			mb={'50px'}
-			display={status !== 'attached' && 'none'}>
+		<Flex flexDir={'column'} bgColor={'#fcfcfc'} h={'100%'} display={status !== 'attached' && 'none'}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
-			<Formik initialValues={initialValues} validate={handleValidation} onSubmit={onSubmit}>
+			<Formik initialValues={{}} onSubmit={onSubmit} validate={handleValidation}>
 				{(props) => (
-					<Flex flexDir={'column'} alignItems={'center'} rounded={'md'} flex={1} w={'100%'}>
+					<Flex
+						flexDir={'column'}
+						alignItems={'center'}
+						rounded={'md'}
+						flex={1}
+						w={'100%'}
+						h={'100%'}>
 						<Form>
-							<Field name={'paravolo'}>
+							<Field name={'attachment'}>
 								{({ field, form }) => (
 									<FormControl
-										isInvalid={form.errors.paravolo && form.touched.paravolo}
+										isInvalid={form.errors.attachment && form.touched.attachment}
 										mt={'20px'}>
-										<FormLabel fontSize={'18px'} htmlFor={'paravolo'}>
-											Παράβολο
+										<FormLabel fontSize={'18px'} htmlFor={'attachment'}>
+											Αρχεία
 										</FormLabel>
 										<Box fontSize={'16px'} w={'50vw'}>
 											<Dropzone
-												styles={{
-													height: '40px',
-												}}
-												initialFiles={
-													(formData.attachments &&
-														formData.attachments.paravolo && [
-															formData.attachments.paravolo,
-														]) ||
-													[]
-												}
 												submitButtonDisabled={
-													formData.attachments && formData.attachments.paravolo
+													formData.attachments && formData.attachments.attachment
 												}
-												multiple={false}
 												getUploadParams={getUploadParams}
-												maxFiles={1}
-												onChangeStatus={({ meta, file }, status) =>
-													handleChangeStatus({ meta, file }, status, 'paravolo')
-												}
+												inputContent={'Ανεβάστε αρχείο'}
+												inputWithFilesContent={'Προσθέστε αρχείο'}
+												onChangeStatus={handleChangeStatus}
+												initialFiles={initialFiles}
 											/>
 										</Box>
 										<FormErrorMessage>
-											{form.errors.paravolo && form.touched.paravolo
-												? form.errors.paravolo
+											{form.errors.attachment && form.touched.attachment
+												? form.errors.attachment
 												: ''}
 										</FormErrorMessage>
 									</FormControl>
 								)}
 							</Field>
-							<Field name={'id_application'}>
-								{({ field, form }) => (
-									<FormControl
-										isInvalid={form.errors.id_application && form.touched.id_application}
-										mt={'20px'}>
-										<FormLabel fontSize={'18px'} htmlFor={'id_application'}>
-											Αποδεικτικό Ταυτότητας
-										</FormLabel>
-										<Box fontSize={'16px'} w={'50vw'}>
-											<Dropzone
-												getUploadParams={getUploadParams}
-												maxFiles={1}
-												onChangeStatus={({ meta, file }, status) =>
-													handleChangeStatus(
-														{ meta, file },
-														status,
-														'id_application'
-													)
-												}
-											/>
-										</Box>
-										<FormErrorMessage>
-											{form.errors.id_application && form.touched.id_application
-												? form.errors.id_application
-												: ''}
-										</FormErrorMessage>
-									</FormControl>
-								)}
-							</Field>
-							<Field name={'other'}>
-								{({ field, form }) => (
-									<FormControl
-										isInvalid={form.errors.other && form.touched.other}
-										mt={'20px'}>
-										<FormLabel fontSize={'18px'} htmlFor={'other'}>
-											Άλλο
-										</FormLabel>
-										<Dropzone
-											getUploadParams={getUploadParams}
-											maxFiles={1}
-											onChangeStatus={({ meta, file }, status) =>
-												handleChangeStatus({ meta, file }, status, 'other')
-											}
-										/>
-										<FormErrorMessage>
-											{form.errors.other && form.touched.other
-												? form.errors.paravolo
-												: ''}
-										</FormErrorMessage>
-									</FormControl>
-								)}
-							</Field>
-							<Flex mt={'30px'} justifyContent={'center'} gap={4}>
-								<Button colorScheme={'blue'} rounded={'md'} type='submit'>
+
+							<Flex mt={'50px'} justifyContent={'right'} gap={4}>
+								<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+									Προσωρινή Αποθήκευση
+								</Button>
+								<Button
+									colorScheme={'orange'}
+									rounded={'md'}
+									isDisabled={!enableSubmit}
+									type={'submit'}>
 									Υποβολή
 								</Button>
 							</Flex>

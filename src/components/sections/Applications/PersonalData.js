@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
 	Flex,
 	Text,
@@ -15,10 +15,19 @@ import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 import { useSelector } from 'react-redux';
 
-const PersonalData = ({ formData, handleFormData, onSubmit }) => {
+const PersonalData = ({
+	formData,
+	handleFormData,
+	onSubmit,
+	submitType,
+	saveForm,
+	validated,
+	setValidated,
+	status,
+}) => {
 	const { application } = useSelector((state) => state.applications);
 
-	const initialValues = {
+	const formInitialFields = {
 		firstName: '',
 		lastName: '',
 		fatherName: '',
@@ -40,6 +49,9 @@ const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 		idDate: '',
 		idNumber: '',
 		authority: '',
+	};
+	const initialValues = {
+		...formInitialFields,
 		...formData,
 	};
 
@@ -61,69 +73,89 @@ const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 		if (!values.fatherName) {
 			errors.fatherName = 'Το πατρώνυμο είναι υποχρεωτικό';
 		}
-		if (!values.motherName) {
-			errors.motherName = 'Το μητρώνυμο είναι υποχρεωτικό';
+		// if (!values.motherName) {
+		// 	errors.motherName = 'Το μητρώνυμο είναι υποχρεωτικό';
+		// }
+		// if (!values.birthCountry) {
+		// 	errors.birthCountry = 'Η Χώρα Γέννησης είναι υποχρεωτική';
+		// }
+		// if (!values.birthPlace) {
+		// 	errors.birthPlace = 'Η πόλη Γέννησης είναι υποχρεωτική';
+		// }
+		// if (!values.birthDate) {
+		// 	errors.birthDate = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceCountry) {
+		// 	errors.residenceCountry = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceAddress) {
+		// 	errors.residenceAddress = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.postcode) {
+		// 	errors.postcode = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceCity) {
+		// 	errors.residenceCity = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceLocation) {
+		// 	errors.residenceLocation = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceTel) {
+		// 	errors.residenceTel = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.residenceMobile) {
+		// 	errors.residenceMobile = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.email) {
+		// 	errors.email = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.afm) {
+		// 	errors.afm = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!idType) {
+		// 	console.log(values.idType, idType);
+		// 	errors.idType = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.idDate) {
+		// 	errors.idDate = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.idNumber) {
+		// 	errors.idNumber = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		// if (!values.authority) {
+		// 	errors.authority = 'Το πεδίο είναι υποχρεωτικό';
+		// }
+		if (Object.keys(errors).length === 0) {
+			setValidated({
+				personalData: true,
+			});
+		} else {
+			setValidated({
+				...validated,
+				personalData: false,
+			});
 		}
-		if (!values.birthCountry) {
-			errors.birthCountry = 'Η Χώρα Γέννησης είναι υποχρεωτική';
-		}
-		if (!values.birthPlace) {
-			errors.birthPlace = 'Η πόλη Γέννησης είναι υποχρεωτική';
-		}
-		if (!values.birthDate) {
-			errors.birthDate = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceCountry) {
-			errors.residenceCountry = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceAddress) {
-			errors.residenceAddress = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.postcode) {
-			errors.postcode = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceCity) {
-			errors.residenceCity = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceLocation) {
-			errors.residenceLocation = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceTel) {
-			errors.residenceTel = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.residenceMobile) {
-			errors.residenceMobile = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.email) {
-			errors.email = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.afm) {
-			errors.afm = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!idType) {
-			console.log(values.idType, idType);
-			errors.idType = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.idDate) {
-			errors.idDate = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.idNumber) {
-			errors.idNumber = 'Το πεδίο είναι υποχρεωτικό';
-		}
-		if (!values.authority) {
-			errors.authority = 'Το πεδίο είναι υποχρεωτικό';
-		}
+		console.log(errors);
 		return errors;
 	};
 
 	return (
-		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} flex={1} pb={'50px'}>
+		<Flex
+			flexDir={'column'}
+			px={'50px'}
+			bgColor={'#fcfcfc'}
+			flex={1}
+			pb={'50px'}
+			display={status !== 'personal-data' && 'none'}>
 			<Divider h={'2px'} bgColor={'gray.300'} />
 			<Formik
 				innerRef={formRef}
 				initialValues={initialValues}
 				validate={handleValidation}
-				onSubmit={onSubmit}>
+				validateOnMount
+				onSubmit={(values) => {
+					console.log(formRef.current);
+				}}>
 				{(props) => (
 					<Form>
 						<Flex justifyContent={'space-evenly'} gap={10}>
@@ -505,13 +537,9 @@ const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 								</Field>
 							)}
 						</Flex>
-						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
-							<Button
-								colorScheme={'blue'}
-								rounded={'md'}
-								type='submit'
-								isLoading={application.isLoading}>
-								Υποβολή
+						<Flex mt={'50px'} justifyContent={'right'} gap={4}>
+							<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+								Προσωρινή Αποθήκευση
 							</Button>
 						</Flex>
 					</Form>

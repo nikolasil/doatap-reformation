@@ -124,6 +124,11 @@ const applicationSchema = new Schema(
 		matchStudyTitle: {
 			type: String,
 		},
+		attachments: [
+			// {
+			// 	type: Buffer,
+			// },
+		],
 	},
 	{
 		timestamps: true,

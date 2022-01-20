@@ -18,7 +18,15 @@ import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
 import universities from '../../../data/form/universities.json';
 
-const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
+const DegreeMatching = ({
+	formData,
+	handleFormData,
+	onSubmit,
+	saveForm,
+	validated,
+	setValidated,
+	status,
+}) => {
 	const [matchStudyCountry, setMatchStudyCountry] = useState('GR');
 	const initialValues = {
 		matchDegreeType: '',
@@ -30,13 +38,37 @@ const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 	};
 
 	const handleValidation = (values) => {
+		const errors = {};
 		handleFormData(values);
+
+		if (Object.keys(errors).length === 0) {
+			setValidated({
+				degreeMatching: true,
+			});
+		} else {
+			setValidated({
+				...validated,
+				degreeMatching: false,
+			});
+		}
+
+		return errors;
 	};
 
 	return (
-		<Flex flexDir={'column'} px={'50px'} bgColor={'#fcfcfc'} pb={'50px'} flex={1}>
+		<Flex
+			flexDir={'column'}
+			px={'50px'}
+			bgColor={'#fcfcfc'}
+			pb={'50px'}
+			flex={1}
+			display={status !== 'degree-matching' && 'none'}>
 			<Divider h={'2px'} bgColor={'gray.300'} mb={'20px'} />
-			<Formik initialValues={initialValues} validate={handleValidation} onSubmit={onSubmit}>
+			<Formik
+				initialValues={initialValues}
+				validate={handleValidation}
+				onSubmit={onSubmit}
+				validateOnMount>
 				{(props) => (
 					<Form>
 						<Text fontSize={'18x'} fontWeight={'500'}>
@@ -149,9 +181,9 @@ const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 								)}
 							</Field>
 						</Flex>
-						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
-							<Button colorScheme={'blue'} rounded={'md'} type='submit'>
-								Υποβολή
+						<Flex mt={'50px'} justifyContent={'right'} gap={4}>
+							<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+								Προσωρινή Αποθήκευση
 							</Button>
 						</Flex>
 					</Form>
@@ -161,4 +193,4 @@ const DegreeTitle = ({ formData, handleFormData, onSubmit }) => {
 	);
 };
 
-export default DegreeTitle;
+export default DegreeMatching;

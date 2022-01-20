@@ -8,6 +8,7 @@ const inititalState = {
 		message: null,
 		isUploaded: false,
 		isFetched: false,
+		newId: null,
 	},
 	applications: {
 		isLoading: false,
@@ -40,7 +41,7 @@ export default (state = inititalState, action) => {
 					isLoading: false,
 					error: null,
 					message: payload.message,
-					application: payload.application,
+					newId: payload.application._id,
 					isUploaded: true,
 				},
 			};

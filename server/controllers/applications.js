@@ -5,28 +5,36 @@ exports.createApplication = async (req, res) => {
 	try {
 		let application;
 		if (req.body._id != null) {
-			application = await Application.findByIdAndUpdate(req.body._id, req.body);
+			console.log(req.body);
+			application = await Application.findByIdAndUpdate(req.body._id, req.body, {
+				new: true,
+				// status: req.body.status && req.body.status,
+			});
 		} else {
+			console.log('new');
 			application = new Application({
 				...req.body,
 				belongsTo: req.user._id,
 			});
 		}
-		console.log(application);
+		// const dirOfApplication = './applications/' + result._id;
+
+		// if (!fs.existsSync(dirOfApplication)) {
+		// 	fs.mkdirSync(dirOfApplication, { recursive: true });
+		// }
+
+		// if (req.files) {
+		// 	req.files.forEach((file) => {
+		// 		console.log(file);
+		// 		fs.writeFileSync(dirOfApplication + '/' + file.originalname, file.buffer);
+		// 	});
+		// }
+		application.attachments = req.files;
 		const result = await application.save();
-		const dirOfApplication = './applications/' + result._id;
-
-		if (!fs.existsSync(dirOfApplication)) {
-			fs.mkdirSync(dirOfApplication, { recursive: true });
-		}
-
-		req.files.forEach((file) => {
-			fs.writeFileSync(dirOfApplication + '/' + file.originalname, file.buffer);
-		});
 
 		res.status(201).json({
 			message: 'Application created successfully!',
-			application: result,
+			application,
 		});
 	} catch (e) {
 		console.log(e);
@@ -48,13 +56,7 @@ exports.getApplication = async (req, res, next) => {
 			});
 			return;
 		}
-		const dirOfApplication = './applications/' + application._id;
-		const files = fs.readdirSync(dirOfApplication);
-		const filesWithPath = files.map((file) => {
-			return fs.readFileSync(dirOfApplication + '/' + file);
-		});
 
-		application.attachments = filesWithPath;
 		return res.json({
 			message: 'Application was found!',
 			application,
