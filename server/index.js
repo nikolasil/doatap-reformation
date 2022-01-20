@@ -2,7 +2,7 @@ const express = require('express');
 const connectToDb = require('./lib/db');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const applicationRoutes = require('./routes/application');
+const applicationRoutes = require('./routes/applications');
 const adminRoutes = require('./routes/admin');
 const generalRoutes = require('./routes/general');
 
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use(generalRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/application', applicationRoutes);
+app.use('/api/applications', applicationRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.use((error, req, res, next) => {

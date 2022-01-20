@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const applicationSchema = new Schema(
 	{
+		// identifier: {
+		// 	type: Number,
+		// 	increment: true,
+		// 	default: 0,
+		// },
 		belongsTo: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',

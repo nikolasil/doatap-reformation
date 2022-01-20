@@ -31,6 +31,5 @@ module.exports = async (req, res, next) => {
 		return;
 	}
 	req.user = user;
-	req.userId = decodedToken.userId;
 	next();
 };

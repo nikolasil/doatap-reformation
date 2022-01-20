@@ -10,10 +10,10 @@ import DegreeTitle from '../../sections/Applications/DegreeTitle';
 import DegreeMatching from '../../sections/Applications/DegreeMatching';
 import Attached from '../../sections/Applications/Attached';
 
-const NewApplication = () => {
+const NewApplication = ({ application = {} }) => {
 	const dispatch = useDispatch();
 	const [activeStatus, setActiveStatus] = useState('personal-data');
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState({ ...application });
 
 	const handleSubmit = () => {
 		console.log(formData);
@@ -23,6 +23,10 @@ const NewApplication = () => {
 	const formProps = {
 		formData: formData,
 		handleFormData: (values) => {
+			console.log({
+				...formData,
+				...values,
+			});
 			setFormData({
 				...formData,
 				...values,
@@ -38,10 +42,6 @@ const NewApplication = () => {
 				return <DegreeTitle {...formProps} />;
 			case 'degree-matching':
 				return <DegreeMatching {...formProps} />;
-			// case 'attached':
-			// 	return <Attached {...formProps} />;
-			// default:
-			// 	return <PersonalData {...formProps} />;
 		}
 	};
 

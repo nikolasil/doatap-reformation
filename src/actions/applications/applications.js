@@ -17,14 +17,31 @@ export const submitNewApplication = (data) => async (dispatch) => {
 			'Content-Type': 'multipart/form-data',
 		},
 	};
-	console.log(formData);
 	try {
 		dispatch({ type: types.SUBMIT_NEW_APPLICATION_REQUEST });
-		const response = await axios.post('/application/create', formData, config);
-		console.log(response.data);
+		const response = await axios.post('/applications/create', formData, config);
 		dispatch({ type: types.SUBMIT_NEW_APPLICATION_SUCCESS, payload: response.data });
 	} catch (error) {
-		console.log(error.response);
-		dispatch({ type: types.SUBMIT_NEW_APPLICATION_FAILURE, payload: error.response.data.message });
+		dispatch({ type: types.SUBMIT_NEW_APPLICATION_FAILURE, payload: error.response.data });
+	}
+};
+
+export const getAllApplications = () => async (dispatch) => {
+	try {
+		dispatch({ type: types.GET_ALL_APPLICATIONS_REQUEST });
+		const response = await axios.get('/applications');
+		dispatch({ type: types.GET_ALL_APPLICATIONS_SUCCESS, payload: response.data });
+	} catch (error) {
+		dispatch({ type: types.GET_ALL_APPLICATIONS_FAILURE, payload: error.response.data });
+	}
+};
+
+export const getApplication = (id) => async (dispatch) => {
+	try {
+		dispatch({ type: types.FETCH_APPLICATION_REQUEST });
+		const response = await axios.get(`/applications/${id}`);
+		dispatch({ type: types.FETCH_APPLICATION_SUCCESS, payload: response.data });
+	} catch (error) {
+		dispatch({ type: types.FETCH_APPLICATION_FAILURE, payload: error.response.data });
 	}
 };

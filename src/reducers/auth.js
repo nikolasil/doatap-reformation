@@ -1,10 +1,11 @@
 import * as types from '../actions/types';
 import setAuthHeader from '../utils/setAuthHeader';
 
+setAuthHeader();
 const initialState = {
 	isLoading: false,
-	user: {},
-	isLoading: false,
+	user: null,
+	isLoading: true,
 	error: null,
 	token: localStorage.getItem('token'),
 	isAuthenticated: !!localStorage.getItem('token'),
@@ -14,6 +15,7 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
+		case types.LOAD_USER_REQUEST:
 		case types.LOGIN_USER_REQUEST:
 		case types.SIGNUP_USER_REQUEST: {
 			return {
@@ -44,6 +46,7 @@ export default (state = initialState, action) => {
 				error: payload,
 			};
 		}
+		case types.LOAD_USER_FAILURE:
 		case types.LOGOUT: {
 			localStorage.removeItem('token');
 			return {
@@ -51,6 +54,15 @@ export default (state = initialState, action) => {
 				isAuthenticated: false,
 				token: null,
 				user: {},
+			};
+		}
+		case types.LOAD_USER_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: true,
+				user: payload.user,
+				error: null,
 			};
 		}
 		default: {

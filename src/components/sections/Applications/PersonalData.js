@@ -13,8 +13,11 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import countries from '../../../data/form/countries.json';
+import { useSelector } from 'react-redux';
 
 const PersonalData = ({ formData, handleFormData, onSubmit }) => {
+	const { application } = useSelector((state) => state.applications);
+
 	const initialValues = {
 		firstName: '',
 		lastName: '',
@@ -97,7 +100,8 @@ const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 		if (!values.afm) {
 			errors.afm = 'Το πεδίο είναι υποχρεωτικό';
 		}
-		if (!values.idType) {
+		if (!idType) {
+			console.log(values.idType, idType);
 			errors.idType = 'Το πεδίο είναι υποχρεωτικό';
 		}
 		if (!values.idDate) {
@@ -502,7 +506,11 @@ const PersonalData = ({ formData, handleFormData, onSubmit }) => {
 							)}
 						</Flex>
 						<Flex mt={'30px'} justifyContent={'center'} gap={4}>
-							<Button colorScheme={'blue'} rounded={'md'} type='submit'>
+							<Button
+								colorScheme={'blue'}
+								rounded={'md'}
+								type='submit'
+								isLoading={application.isLoading}>
 								Υποβολή
 							</Button>
 						</Flex>

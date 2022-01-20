@@ -46,3 +46,14 @@ exports.login = async (req, res) => {
 		});
 	}
 };
+
+exports.loadUser = async (req, res) => {
+	try {
+		res.status(201).json({
+			message: 'User loaded successfully!',
+			user: req.user,
+		});
+	} catch (e) {
+		console.log(e);
+	}
+};

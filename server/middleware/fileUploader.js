@@ -14,8 +14,8 @@ const upload = multer({
 
 const fileUploader = (req, res, next) => {
 	return upload.any('attachments')(req, res, () => {
-		if (!req.files || req.files.length === 0)
-			return res.status(400).json({ error: 'No file is uploaded' });
+		// if (!req.files || req.files.length === 0 )
+		// 	return res.status(400).json({ error: 'No file is uploaded' });
 		next();
 	});
 };
