@@ -13,8 +13,8 @@ module.exports = async (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, 'thisismyjwtsecret');
   } catch (err) {
-    err.status = 500;
-    throw err;
+    res.status(401).json({ message: 'Not Authenticated' });
+    return;
   }
   if (!decodedToken) {
     res.status(401).json({ message: 'Not Authenticated' });

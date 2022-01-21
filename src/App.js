@@ -40,6 +40,7 @@ function App() {
     store.dispatch(loadUser());
     store.dispatch(loadAdminUser());
   }, []);
+  
   return (
     <div className="App">
       <Provider store={store}>
