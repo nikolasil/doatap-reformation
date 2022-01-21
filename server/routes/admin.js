@@ -34,5 +34,5 @@ router.get(
   isDashboardAuth,
   adminController.getAllApplications
 );
-
+router.get('/me', isDashboardAuth, adminController.loadUser);
 module.exports = router;
