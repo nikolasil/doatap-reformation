@@ -5,15 +5,23 @@ import { Flex } from '@chakra-ui/react';
 import Navbar from './components/ui/Navbar';
 import Header from './components/ui/Header';
 import Applications from './components/layout/admin/Applications';
-
+import AdminPrivateRoute from './components/Routing/AdminPrivateRoute';
 const Admin = () => {
   return (
     <Flex flexDir={'column'} h={'100%'}>
-      <Header />
-      <Navbar />
+      {/* <Header />
+      <Navbar /> */}
       <Routes>
         <Route exact path="/" element={<AdminLanding />} />
-        <Route exact path="/applications" element={<Applications />} />
+        <Route
+          exact
+          path="/applications"
+          element={
+            <AdminPrivateRoute>
+              <Applications />
+            </AdminPrivateRoute>
+          }
+        />
       </Routes>
     </Flex>
   );

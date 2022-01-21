@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
     }
 
     case types.LOGIN_ADMIN_USER_SUCCESS: {
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem('admin-token', payload.token);
       setAuthHeader();
       return {
         ...state,
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     }
     case types.LOAD_ADMIN_USER_FAILURE:
     case types.LOGOUT_ADMIN: {
-      localStorage.removeItem('token');
+      localStorage.removeItem('admin-token');
       return {
         ...state,
         isAuthenticated: false,

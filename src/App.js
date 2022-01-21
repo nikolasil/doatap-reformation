@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 import './App.css';
 import { loadUser } from './actions/auth/auth';
+import { loadAdminUser } from './actions/admin/admin';
 
 import Customer from './Customer';
 import Admin from './Admin';
@@ -37,6 +38,7 @@ function App() {
   useEffect(() => {
     // dispatch(loadUser());
     store.dispatch(loadUser());
+    store.dispatch(loadAdminUser());
   }, []);
   return (
     <div className="App">

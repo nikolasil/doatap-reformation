@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as types from '../types';
-import setAuthHeader from '../../utils/setAuthHeader';
+import setAdminHeader from '../../utils/setAdminHeader';
 
 export const loginAdminUser = (formData) => async (dispatch) => {
   dispatch({ type: types.LOGIN_ADMIN_USER_REQUEST });
@@ -22,7 +22,7 @@ export const logoutAdminUser = () => async (dispatch) => {
 };
 
 export const loadAdminUser = () => async (dispatch) => {
-  setAuthHeader();
+  setAdminHeader();
   dispatch({ type: types.LOAD_ADMIN_USER_REQUEST });
   try {
     const res = await axios.get('admin/me');

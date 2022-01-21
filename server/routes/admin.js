@@ -29,10 +29,5 @@ router.put(
 
 router.post('/login', adminController.login);
 
-router.get(
-  '/applications',
-  isDashboardAuth,
-  adminController.getAllApplications
-);
-router.get('/me', isDashboardAuth, adminController.loadUser);
+router.get('/me', isDashboardAuth, adminController.loadAdminUser);
 module.exports = router;

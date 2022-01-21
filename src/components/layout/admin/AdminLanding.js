@@ -19,19 +19,19 @@ import {
 import Title from '../../ui/Title';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../../../actions/auth/auth';
+import { loginAdminUser } from '../../../actions/admin/admin';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLanding = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
-  const auth = useSelector((state) => state.auth);
+  const admin = useSelector((state) => state.admin);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const onSubmit = (values) => {
     console.log(values);
     setHasSubmitted(true);
-    dispatch(loginUser(values));
+    dispatch(loginAdminUser(values));
   };
   const handleValidation = (values) => {
     const errors = {};
@@ -49,8 +49,8 @@ const AdminLanding = () => {
     return errors;
   };
   useEffect(() => {
-    if (!auth.isLoading && hasSubmitted) {
-      if (auth.isAuthenticated) {
+    if (!admin.isLoading && hasSubmitted) {
+      if (admin.isAuthenticated) {
         toast({
           title: 'Επιτυχής Σύνδεση',
           status: 'success',
@@ -58,9 +58,9 @@ const AdminLanding = () => {
           isClosable: true,
         });
         navigate('/admin/applications');
-      } else if (auth.error) {
+      } else if (admin.error) {
         return toast({
-          title: auth.error.message || 'Προέκυψε κάποιο σφάλμα',
+          title: admin.error.message || 'Προέκυψε κάποιο σφάλμα',
           description: 'Παρακαλώ δοκιμάστε ξανά',
           status: 'error',
           duration: 4000,
@@ -68,14 +68,14 @@ const AdminLanding = () => {
         });
       }
     }
-  }, [auth]);
+  }, [admin]);
   return (
     <Flex
       flexDir={'column'}
       h={'100%'}
       bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Title title={'Σύνδεση'} />
+      <Title title={'Σύνδεση Admin'} />
       <Flex
         flexDir={'column'}
         justifyContent={'center'}
@@ -148,7 +148,7 @@ const AdminLanding = () => {
                   <Button
                     colorScheme={'blue'}
                     size="lg"
-                    isLoading={auth.isLoading}
+                    isLoading={admin.isLoading}
                     isDisabled={
                       !props.dirty || !props.isValid || props.isValidating
                     }

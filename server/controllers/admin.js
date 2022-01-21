@@ -33,48 +33,29 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
   try {
-    const user = await User.findOne({ email: email, type: 'admin' });
-    if (!user) {
-      res
-        .status(401)
-        .json({ message: 'A user with this email could not be found.' });
-      return;
+    const { email, password } = req.body;
+    const user = await User.findByCredentials(email, password, 'admin');
+
+    const token = await user.generateAuthToken();
+    return res.json({
+      user,
+      token,
+    });
+  } catch (error) {
+    console.error(error.message);
+    if (error.message === 'Unable to login') {
+      return res.status(400).json({
+        message: 'Unable to login - Wrong Credentials',
+      });
     }
-    const isEqual = await bcrypt.compare(password, user.password);
-    if (!isEqual) {
-      res.status(401).json({ message: 'Wrong Password' });
-      return;
-    }
-    const token = jwt.sign(
-      {
-        email: user.email,
-        userId: user._id.toString(),
-      },
-      'yJhbG215cdf3N1[Z3_=+XIQ25_VozJKgfmsqghc8yY678Xnf+Pymo-V_JS}Aa3WhA',
-      { expiresIn: '30d' }
-    );
-    res.status(200).json({ token: token, userId: user._id.toString() });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({
+      message: 'Server Error',
+    });
   }
 };
 
-exports.getAllApplications = async (req, res, next) => {
-  try {
-    const applications = await Application.find();
-    res.status(200).json(applications);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-exports.loadUser = async (req, res) => {
+exports.loadAdminUser = async (req, res) => {
   try {
     res.status(201).json({
       message: 'User loaded successfully!',

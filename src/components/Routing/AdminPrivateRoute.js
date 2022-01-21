@@ -5,10 +5,10 @@ import { Route, Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ children }) => {
 	const toast = useToast();
-	const auth = useSelector((state) => state.auth);
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const user = useSelector((state) => state.auth.user);
-	const loading = useSelector((state) => state.auth.isLoading);
+	const admin = useSelector((state) => state.admin);
+	const isAuthenticated = useSelector((state) => state.admin.isAuthenticated);
+	const user = useSelector((state) => state.admin.user);
+	const loading = useSelector((state) => state.admin.isLoading);
 
 	useEffect(() => {
 		if (!loading && !isAuthenticated) {
@@ -19,9 +19,9 @@ const PrivateRoute = ({ children }) => {
 				isClosable: true,
 			});
 		}
-	}, [auth]);
+	}, [admin]);
 
-	return !loading && (isAuthenticated ? children : <Navigate to='/login' />);
+	return !loading && (isAuthenticated ? children : <Navigate to='/admin' />);
 };
 
 export default PrivateRoute;
