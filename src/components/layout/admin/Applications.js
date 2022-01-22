@@ -1,96 +1,56 @@
-import React from 'react';
-import {
-  Flex,
-  Text,
-  Button,
-  Heading,
-  Table,
-  TableCaption,
-  Thead,
-  Td,
-  Th,
-  Tfoot,
-  Tbody,
-  Tr,
-} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Flex, Table, Thead, Td, Tfoot, Tr, Th, Tbody } from '@chakra-ui/react';
 import Breadcrumb from '../../ui/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import Title from '../../ui/Title';
-import { MdOutlineOpenInNew } from 'react-icons/md';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllApplications } from '../../../actions/admin/admin';
+
+import Application from '../../sections/Admin/Applications/Application';
 
 const Applications = () => {
-  const rowProps = {
-    _hover: {
-      cursor: 'pointer',
-      bgColor: 'gray.200',
-    },
-  };
-  const navigate = useNavigate();
-  return (
-    <Flex flexDir={'column'} h={'100%'}>
-      <Title title={'Αιτήσεις'} />
-      <Flex bg={'#e9edf0'} py={'5vh'} flex={1}>
-        <Flex
-          bg={'gray.50'}
-          w={'100%'}
-          rounded={'md'}
-          flexDir={'column'}
-          boxShadow={'lg'}
-        >
-          <Flex
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            m={'30px'}
-          >
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Αριθμος Αιτησης</Th>
-                  <Th>Ημερομηνια Δημιουργιας</Th>
-                  <Th>Ονομα Χρηστη</Th>
-                  <Th>Κατασταση</Th>
-                  <Th isNumeric>ACTION</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>4305</Td>
-                  <Td>13/2/2021</Td>
-                  <Td>Νικόλας Ηλιόπουλος</Td>
-                  <Td>Αναμονή</Td>
-                  <Td>
-                    <Flex>
-                      <MdOutlineOpenInNew
-                        size={'3em'}
-                        cursor={'pointer'}
-                        onClick={() => navigate(``)}
-                      />
-                      <Button
-                        colorScheme={'green'}
-                        onClick={() =>
-                          navigate('/applications/new-application')
-                        }
-                      >
-                        <Text>Έγκριση</Text>
-                      </Button>
-                      <Button
-                        colorScheme={'red'}
-                        onClick={() =>
-                          navigate('/applications/new-application')
-                        }
-                      >
-                        <Text>Απόρριψη</Text>
-                      </Button>
-                    </Flex>
-                  </Td>
-                </Tr>
-              </Tbody>
-            </Table>
-          </Flex>
-        </Flex>
-      </Flex>
-    </Flex>
-  );
+	const dispatch = useDispatch();
+	const { applications } = useSelector((state) => state.admin);
+
+	useEffect(() => {
+		dispatch(getAllApplications());
+	}, []);
+
+	const rowProps = {
+		_hover: {
+			cursor: 'pointer',
+			bgColor: 'gray.200',
+		},
+	};
+	const navigate = useNavigate();
+	return (
+		<Flex flexDir={'column'} h={'100%'}>
+			<Title title={'Αιτήσεις'} />
+			<Flex bg={'#e9edf0'} py={'5vh'} flex={1}>
+				<Flex bg={'gray.50'} w={'100%'} rounded={'md'} flexDir={'column'} boxShadow={'lg'}>
+					<Flex alignItems={'center'} justifyContent={'space-between'} m={'30px'}>
+						<Table variant='simple'>
+							<Thead>
+								<Tr>
+									<Th>Αριθμος Αιτησης</Th>
+									<Th>Ημερομηνια Δημιουργιας</Th>
+									<Th>Ονομα Χρηστη</Th>
+									<Th>Κατασταση</Th>
+									<Th isNumeric>ACTION</Th>
+								</Tr>
+							</Thead>
+							<Tbody>
+								{applications.isFetched &&
+									applications.applications.map((application) => (
+										<Application application={application} key={application._id} />
+									))}
+							</Tbody>
+						</Table>
+					</Flex>
+				</Flex>
+			</Flex>
+		</Flex>
+	);
 };
 
 export default Applications;

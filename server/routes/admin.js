@@ -7,27 +7,10 @@ const router = express.Router();
 const adminController = require('../controllers/admin');
 const isDashboardAuth = require('../middleware/is-dashboard-auth');
 
-router.put(
-  '/signup',
-  [
-    body('email')
-      .isEmail()
-      .withMessage('Please enter a valid email.')
-      .custom((value, { req }) => {
-        return User.findOne({ email: value }).then((userDoc) => {
-          if (userDoc) {
-            return Promise.reject('E-Mail address already exists');
-          }
-        });
-      })
-      .normalizeEmail(),
-    body('password').trim().isLength({ min: 8 }),
-    body('name').trim().not().isEmpty(),
-  ],
-  adminController.signup
-);
-
 router.post('/login', adminController.login);
-
 router.get('/me', isDashboardAuth, adminController.loadAdminUser);
+router.get('/applications', isDashboardAuth, adminController.getAllApplications);
+router.get('/applications/:id', isDashboardAuth, adminController.getApplication);
+router.get('/applications/:id/approve', isDashboardAuth, adminController.approveApplication);
+router.get('/applications/:id/reject', isDashboardAuth, adminController.rejectApplication);
 module.exports = router;

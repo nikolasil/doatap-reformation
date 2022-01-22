@@ -15,11 +15,11 @@ import {
 	Radio,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import countries from '../../../data/form/countries.json';
-import universities from '../../../data/form/universities.json';
+import countries from '../../../../data/form/countries.json';
+import universities from '../../../../data/form/universities.json';
 import 'animate.css';
 
-const DegreeTitle = ({ saveForm, status }) => {
+const DegreeTitle = ({ status }) => {
 	const [studyCountry, setStudyCountry] = useState('GR');
 
 	return (
@@ -45,10 +45,10 @@ const DegreeTitle = ({ saveForm, status }) => {
 								isInvalid={form.errors.degreeType && form.touched.degreeType}
 								mt={'20px'}>
 								<FormLabel htmlFor='degreeType'>Τύπος Πανεπιστημίου Ισοτιμίας</FormLabel>
-								<Select {...field} id='degreeType'>
+								<Input {...field} id='degreeType' readOnly>
 									<option value='Πανεπιστήμιο'>Πανεπιστήμιο</option>
 									<option value='ΤΕΙ'>ΤΕΙ</option>
-								</Select>
+								</Input>
 								<FormErrorMessage>{form.errors.degreeType}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -118,7 +118,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 							isInvalid={form.errors.studyTitle && form.touched.studyTitle}
 							mt={'20px'}>
 							<FormLabel htmlFor='studyTitle'>Τίτλος Σπουδών</FormLabel>
-							<Input {...field} id='studyTitle' placeholder='Εισάγετε Τίτλο Σπουδών' />
+							<Input readOnly {...field} id='studyTitle' placeholder='Εισάγετε Τίτλο Σπουδών' />
 							<FormErrorMessage>{form.errors.studyTitle}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -132,6 +132,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 							mt={'20px'}>
 							<FormLabel htmlFor='studyCredits'>Πιστωτικές Μονάδες (credits)</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								id='studyCredits'
 								placeholder='Εισάγετε Πιστωτικές Μονάδες (credits)'
@@ -149,6 +150,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 							mt={'20px'}>
 							<FormLabel htmlFor='studyStartDate'>Ημερομηνία Εγγραφής</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								type='date'
 								id='studyStartDate'
@@ -165,6 +167,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 							mt={'20px'}>
 							<FormLabel htmlFor='studyEndDate'>Ημερομηνία Αποφοίτησης</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								type='date'
 								id='studyEndDate'
@@ -196,7 +199,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 				</Field>
 			</Flex>
 			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+				<Button colorScheme={'blue'} rounded={'md'}>
 					Προσωρινή Αποθήκευση
 				</Button>
 			</Flex>

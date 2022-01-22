@@ -91,6 +91,7 @@ export default (state = inititalState, action) => {
 				},
 			};
 		case types.FETCH_APPLICATION_SUCCESS: {
+			console.log('reducer', payload.application.attachments);
 			return {
 				...state,
 				application: {

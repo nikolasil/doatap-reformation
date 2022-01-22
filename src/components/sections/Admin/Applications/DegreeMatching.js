@@ -15,11 +15,11 @@ import {
 	Radio,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import countries from '../../../data/form/countries.json';
-import universities from '../../../data/form/universities.json';
+import countries from '../../../../data/form/countries.json';
+import universities from '../../../../data/form/universities.json';
 import 'animate.css';
 
-const DegreeMatching = ({ saveForm, status }) => {
+const DegreeMatching = ({ status }) => {
 	const [matchStudyCountry, setMatchStudyCountry] = useState('GR');
 
 	return (
@@ -124,7 +124,7 @@ const DegreeMatching = ({ saveForm, status }) => {
 				</Field>
 			</Flex>
 			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+				<Button colorScheme={'blue'} rounded={'md'} >
 					Προσωρινή Αποθήκευση
 				</Button>
 			</Flex>

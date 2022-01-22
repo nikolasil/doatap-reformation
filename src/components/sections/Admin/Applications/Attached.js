@@ -20,14 +20,8 @@ import 'react-dropzone-uploader/dist/styles.css';
 import { Dropzone, FileItem } from '@dropzone-ui/react';
 import 'animate.css';
 
-const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, hasUploaded = false }) => {
+const Attached = ({ status, init, hasUploaded = false }) => {
 	const [files, setFiles] = useState([]);
-
-	const updateFiles = (incommingFiles) => {
-		console.log(incommingFiles);
-		setFiles(incommingFiles);
-		handleChangeStatus(incommingFiles);
-	};
 
 	useEffect(() => {
 		let newFiles = [];
@@ -67,7 +61,7 @@ const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, ha
 								Αρχεία
 							</FormLabel>
 							<Box fontSize={'16px'} w={'50vw'}>
-								<Dropzone onChange={updateFiles} value={files}>
+								<Dropzone value={files}>
 									{files.map((file, index) => {
 										return <FileItem key={index} {...file} preview />;
 									})}
@@ -83,10 +77,10 @@ const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, ha
 				</Field>
 
 				<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-					<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
+					<Button colorScheme={'blue'} rounded={'md'}>
 						Προσωρινή Αποθήκευση
 					</Button>
-					<Button colorScheme={'orange'} rounded={'md'} isDisabled={!enableSubmit} type={'submit'}>
+					<Button colorScheme={'orange'} rounded={'md'} type={'submit'}>
 						Υποβολή
 					</Button>
 				</Flex>

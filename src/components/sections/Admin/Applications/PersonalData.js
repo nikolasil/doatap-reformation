@@ -12,11 +12,11 @@ import {
 	Button,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import countries from '../../../data/form/countries.json';
+import countries from '../../../../data/form/countries.json';
 import { useSelector } from 'react-redux';
 import 'animate.css';
 
-const PersonalData = ({ saveForm, status }) => {
+const PersonalData = ({ status }) => {
 	const { application } = useSelector((state) => state.applications);
 	const [idType, setIdType] = useState('Ταυτότητα');
 
@@ -36,7 +36,14 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.firstName && form.touched.firstName} mt={'20px'}>
 							<FormLabel htmlFor='firstName'>Όνομα</FormLabel>
-							<Input {...field} type='text' id='firstName' placeholder='Όνομα' />
+							<Input
+								readOnly
+								{...field}
+								type='text'
+								id='firstName'
+								placeholder='Όνομα'
+								readOnly
+							/>
 							<FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -45,7 +52,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.lastName && form.touched.lastName} mt={'20px'}>
 							<FormLabel htmlFor='lastName'>Επώνυμο</FormLabel>
-							<Input {...field} type='text' id='lastName' placeholder='Επώνυμο' />
+							<Input readOnly {...field} type='text' id='lastName' placeholder='Επώνυμο' />
 							<FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -56,7 +63,7 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.fatherName && form.touched.fatherName}
 							mt={'20px'}>
 							<FormLabel htmlFor='fatherName'>Πατρώνυμο</FormLabel>
-							<Input {...field} type='text' id='fatherName' placeholder='Πατρώνυμο' />
+							<Input readOnly {...field} type='text' id='fatherName' placeholder='Πατρώνυμο' />
 							<FormErrorMessage>{form.errors.fatherName}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -67,7 +74,7 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.motherName && form.touched.motherName}
 							mt={'20px'}>
 							<FormLabel htmlFor='motherName'>Μητρώνυμο</FormLabel>
-							<Input {...field} type='text' id='motherName' placeholder='Μητρώνυμο' />
+							<Input readOnly {...field} type='text' id='motherName' placeholder='Μητρώνυμο' />
 							<FormErrorMessage>{form.errors.motherName}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -117,6 +124,7 @@ const PersonalData = ({ saveForm, status }) => {
 							mt={'20px'}>
 							<FormLabel htmlFor='birthPlace'>Πόλη Γέννησης</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								type='text'
 								id='birthPlace'
@@ -131,6 +139,7 @@ const PersonalData = ({ saveForm, status }) => {
 						<FormControl isInvalid={form.errors.birthDate && form.touched.birthDate} mt={'20px'}>
 							<FormLabel htmlFor='birthDate'>Ημερομηνία Γέννησης</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								type='date'
 								id='birthDate'
@@ -167,6 +176,7 @@ const PersonalData = ({ saveForm, status }) => {
 							mt={'20px'}>
 							<FormLabel htmlFor='residenceAddress'>Διεύθυνση κατοικίας</FormLabel>
 							<Input
+								readOnly
 								{...field}
 								type='text'
 								id='residenceAddress'
@@ -182,7 +192,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.postcode && form.touched.postcode} mt={'20px'}>
 							<FormLabel htmlFor='postcode'>Τ.Κ.</FormLabel>
-							<Input {...field} type='text' id='postcode' placeholder='Τ.Κ.' />
+							<Input readOnly {...field} type='text' id='postcode' placeholder='Τ.Κ.' />
 							<FormErrorMessage>{form.errors.postcode}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -193,7 +203,7 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.residenceCity && form.touched.residenceCity}
 							mt={'20px'}>
 							<FormLabel htmlFor='residenceCity'>Πόλη</FormLabel>
-							<Input {...field} type='text' id='residenceCity' placeholder='Πόλη' />
+							<Input readOnly {...field} type='text' id='residenceCity' placeholder='Πόλη' />
 							<FormErrorMessage>{form.errors.residenceCity}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -206,7 +216,13 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.residenceLocation && form.touched.residenceLocation}
 							mt={'20px'}>
 							<FormLabel htmlFor='residenceLocation'>Περιοχή</FormLabel>
-							<Input {...field} type='text' id='residenceLocation' placeholder='Περιοχή' />
+							<Input
+								readOnly
+								{...field}
+								type='text'
+								id='residenceLocation'
+								placeholder='Περιοχή'
+							/>
 							<FormErrorMessage>{form.errors.residenceLocation}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -217,7 +233,7 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.residenceTel && form.touched.residenceTel}
 							mt={'20px'}>
 							<FormLabel htmlFor='residenceTel'>Τηλέφωνο</FormLabel>
-							<Input {...field} type='tel' id='residenceTel' placeholder='Τηλέφωνο' />
+							<Input readOnly {...field} type='tel' id='residenceTel' placeholder='Τηλέφωνο' />
 							<FormErrorMessage>{form.errors.residenceTel}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -228,7 +244,7 @@ const PersonalData = ({ saveForm, status }) => {
 							isInvalid={form.errors.residenceMobile && form.touched.residenceMobile}
 							mt={'20px'}>
 							<FormLabel htmlFor='residenceMobile'>Κινητό</FormLabel>
-							<Input {...field} type='tel' id='residenceMobile' placeholder='Κινητό' />
+							<Input readOnly {...field} type='tel' id='residenceMobile' placeholder='Κινητό' />
 							<FormErrorMessage>{form.errors.residenceMobile}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -239,7 +255,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.email && form.touched.email} mt={'20px'}>
 							<FormLabel htmlFor='email'>Email</FormLabel>
-							<Input {...field} type='email' id='email' placeholder='Email' />
+							<Input readOnly {...field} type='email' id='email' placeholder='Email' />
 							<FormErrorMessage>{form.errors.email}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -248,7 +264,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.afm && form.touched.afm} mt={'20px'}>
 							<FormLabel htmlFor='afm'>ΑΦΜ</FormLabel>
-							<Input {...field} type='text' id='afm' placeholder='ΑΦΜ' />
+							<Input readOnly {...field} type='text' id='afm' placeholder='ΑΦΜ' />
 							<FormErrorMessage>{form.errors.afm}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -275,7 +291,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.idNumber && form.touched.idNumber} mt={'20px'}>
 							<FormLabel htmlFor='idNumber'>Αριθμός Ταυτοποίησης</FormLabel>
-							<Input {...field} type='text' id='idNumber' placeholder='Αριθμός' />
+							<Input readOnly {...field} type='text' id='idNumber' placeholder='Αριθμός' />
 							<FormErrorMessage>{form.errors.idNumber}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -286,7 +302,13 @@ const PersonalData = ({ saveForm, status }) => {
 						{({ field, form }) => (
 							<FormControl isInvalid={form.errors.idDate && form.touched.idDate} mt={'20px'}>
 								<FormLabel htmlFor='idDate'>Ημερομηνία Έκδοσης</FormLabel>
-								<Input {...field} type='date' id='idDate' placeholder='Ημερομηνία Έκδοσης' />
+								<Input
+									readOnly
+									{...field}
+									type='date'
+									id='idDate'
+									placeholder='Ημερομηνία Έκδοσης'
+								/>
 								<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -296,7 +318,13 @@ const PersonalData = ({ saveForm, status }) => {
 						{({ field, form }) => (
 							<FormControl isInvalid={form.errors.idDate && form.touched.idDate} mt={'20px'}>
 								<FormLabel htmlFor='idDate'>Ημερομηνία Λήξης</FormLabel>
-								<Input {...field} type='date' id='idDate' placeholder='Ημερομηνία Λήξης' />
+								<Input
+									readOnly
+									{...field}
+									type='date'
+									id='idDate'
+									placeholder='Ημερομηνία Λήξης'
+								/>
 								<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -310,7 +338,13 @@ const PersonalData = ({ saveForm, status }) => {
 								isInvalid={form.errors.authority && form.touched.authority}
 								mt={'20px'}>
 								<FormLabel htmlFor='authority'>Εκδούσα Αρχή</FormLabel>
-								<Input {...field} type='text' id='authority' placeholder='Εκδούσα Αρχή' />
+								<Input
+									readOnly
+									{...field}
+									type='text'
+									id='authority'
+									placeholder='Εκδούσα Αρχή'
+								/>
 								<FormErrorMessage>{form.errors.authority}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -335,11 +369,7 @@ const PersonalData = ({ saveForm, status }) => {
 					</Field>
 				)}
 			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
-					Προσωρινή Αποθήκευση
-				</Button>
-			</Flex>
+			
 		</Flex>
 	);
 };

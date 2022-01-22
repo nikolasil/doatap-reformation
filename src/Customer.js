@@ -12,46 +12,54 @@ import Application from './components/layout/Applications/Application';
 import Account from './components/layout/Account/Account';
 import NotFound from './components/layout/NotFound/NotFound';
 import PrivateRoute from './components/Routing/PrivateRoute';
+import { useDispatch } from 'react-redux';
+import { loadUser } from './actions/auth/auth';
+
 const Customer = () => {
-  return (
-    <Flex flexDir={'column'} h={'100%'}>
-      <Header />
-      <Navbar />
-      <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/applications" element={<Applications />} />
-        <Route
-          exact
-          path="/account"
-          element={
-            <PrivateRoute>
-              <Account />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          exact
-          path="/applications/new-application"
-          element={
-            <PrivateRoute>
-              <NewApplication />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/applications/:id"
-          element={
-            <PrivateRoute>
-              <Application />
-            </PrivateRoute>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Flex>
-  );
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(loadUser());
+	}, []);
+
+	return (
+		<Flex flexDir={'column'} h={'100%'}>
+			<Header />
+			<Navbar />
+			<Routes>
+				<Route exact path='/' element={<Landing />} />
+				<Route exact path='/login' element={<Login />} />
+				<Route exact path='/register' element={<Register />} />
+				<Route exact path='/applications' element={<Applications />} />
+				<Route
+					exact
+					path='/account'
+					element={
+						<PrivateRoute>
+							<Account />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					exact
+					path='/applications/new-application'
+					element={
+						<PrivateRoute>
+							<NewApplication />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/applications/:id'
+					element={
+						<PrivateRoute>
+							<Application />
+						</PrivateRoute>
+					}
+				/>
+				<Route path='*' element={<NotFound />} />
+			</Routes>
+		</Flex>
+	);
 };
 
 export default Customer;
