@@ -13,9 +13,7 @@ const BreadcrumbWrapper = () => {
 			<Breadcrumb>
 				{pathArray.map((item, index) => (
 					<BreadcrumbItem key={index} fontSize={'18px'}>
-						<BreadcrumbLink href={'/'}>
-							{item[0].toUpperCase() + item.slice(1).toLowerCase()}
-						</BreadcrumbLink>
+						<BreadcrumbLink href={'/'}>{item[0] + item.slice(1).toLowerCase()}</BreadcrumbLink>
 					</BreadcrumbItem>
 				))}
 			</Breadcrumb>

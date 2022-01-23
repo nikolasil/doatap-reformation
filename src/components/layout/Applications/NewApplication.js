@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Flex, Text, useToast } from '@chakra-ui/react';
+import { Flex, Text, useToast, useDisclosure, Button } from '@chakra-ui/react';
 import StatusBar from '../../sections/Applications/StatusBar';
 import Title from '../../ui/Title';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,8 @@ import DegreeMatching from '../../sections/Applications/DegreeMatching';
 import Attached from '../../sections/Applications/Attached';
 import { getApplication } from '../../../actions/applications/applications';
 import { Formik, Form, Field } from 'formik';
+import CommentModal from '../../sections/Admin/Applications/CommentModal';
+import { BsDownload } from 'react-icons/bs';
 
 let init = {
 	//Personal Data
@@ -38,7 +40,6 @@ let init = {
 	authority: '',
 	//Degree Title
 	degreeType: '',
-	studyType: '',
 	studyCountry: '',
 	studyCountryUni: '',
 	studyTitle: '',
@@ -48,7 +49,6 @@ let init = {
 	studyDuration: '',
 	//degree-matching
 	matchDegreeType: '',
-	matchStudyType: '',
 	matchStudyCountry: '',
 	matchStudyCountryUni: '',
 	matchStudyTitle: '',
@@ -106,9 +106,16 @@ const NewApplication = ({ exists = false }) => {
 		dispatch(submitNewApplication({ ...formRef.current.values, status: 1 }));
 	};
 
+	const generatePDF = () => {
+		// const element = document.getElementById('form');
+		// // Choose the element and save the PDF for our user.
+		// html2pdf().from(element).save();
+	};
+
 	const handleValidation = () => {
 		const errors = {};
 		let values;
+		values = formRef.current.values;
 		if (exists && firstTime) {
 			values = initialValues;
 			formRef.current.values = initialValues;
@@ -126,13 +133,107 @@ const NewApplication = ({ exists = false }) => {
 		if (!values.fatherName) {
 			errors.fatherName = 'Το πατρώνυμο είναι υποχρεωτικό';
 		}
+		if (!values.motherName) {
+			errors.motherName = 'Το μητρώνυμο είναι υποχρεωτικό';
+		}
+		if (!values.gender) {
+			errors.gender = 'Το φύλο είναι υποχρεωτικό';
+		}
+		if (!values.birthCountry) {
+			errors.birthCountry = 'Η Χώρα Γέννησης είναι υποχρεωτική';
+		}
+		if (!values.birthPlace) {
+			errors.birthPlace = 'Η Πόλη Γέννησης είναι υποχρεωτική';
+		}
+		if (!values.birthDate) {
+			errors.birthDate = 'Η ημερομηνία γέννησης είναι υποχρεωτική';
+		}
+		if (!values.residenceCountry) {
+			errors.residenceCountry = 'Η Χώρα Υπαλλήλου είναι υποχρεωτική';
+		}
+		if (!values.residenceAddress) {
+			errors.residenceAddress = 'Η Διεύθυνση είναι υποχρεωτική';
+		}
+		if (!values.postcode) {
+			errors.postcode = 'Το Ταχυδρομικό είναι υποχρεωτικό';
+		}
+		if (!values.residenceCity) {
+			errors.residenceCity = 'Η Πόλη είναι υποχρεωτική';
+		}
+		if (!values.residenceLocation) {
+			errors.residenceLocation = 'Η Περιοχή είναι υποχρεωτική';
+		}
+		if (!values.residenceTel) {
+			errors.residenceTel = 'Το Τηλέφωνο είναι υποχρεωτικό';
+		}
+		if (!values.residenceMobile) {
+			errors.residenceMobile = 'Το Κινητό είναι υποχρεωτικό';
+		}
+		if (!values.email) {
+			errors.email = 'Το Email είναι υποχρεωτικό';
+		}
+		if (!values.afm) {
+			errors.afm = 'Το ΑΦΜ είναι υποχρεωτικό';
+		}
+		if (!values.idType) {
+			errors.idType = 'Η κατηγορία ταυτοποίησης είναι υποχρεωτική';
+		}
+		if (!values.idDate) {
+			errors.idDate = 'Η ημερομηνία ταυτότητας είναι υποχρεωτική';
+		}
+		if (!values.idNumber) {
+			errors.idNumber = 'Το αριθμός ταυτότητας είναι υποχρεωτικό';
+		}
+		if (!values.authority) {
+			errors.authority = 'Η υπηρεσία έκδοσης είναι υποχρεωτική';
+		}
+		if (!values.degreeType) {
+			errors.degreeType = 'Η κατηγορία πτυχίου είναι υποχρεωτική';
+		}
+		if (!values.studyCountry) {
+			errors.studyCountry = 'Η χώρα φοίτησης είναι υποχρεωτική';
+		}
+		if (!values.studyCountryUni) {
+			errors.studyCountryUni = 'Το πανεπιστήμιο φοίτησης είναι υποχρεωτικό';
+		}
+		if (!values.studyTitle) {
+			errors.studyTitle = 'Ο τίτλος φοίτησης είναι υποχρεωτικός';
+		}
+		if (!values.studyCredits) {
+			errors.studyCredits = 'Οι πτυχιακές μονάδες είναι υποχρεωτικές';
+		}
+		if (!values.studyStartDate) {
+			errors.studyStartDate = 'Η ημερομηνία έναρξης φοίτησης είναι υποχρεωτική';
+		}
+		if (!values.studyEndDate) {
+			errors.studyEndDate = 'Η ημερομηνία λήξης φοίτησης είναι υποχρεωτική';
+		}
+		if (!values.studyDuration) {
+			errors.studyDuration = 'Η διάρκεια φοίτησης είναι υποχρεωτική';
+		}
+
+		if (!values.matchDegreeType) {
+			errors.matchDegreeType = 'Η κατηγορία πτυχίου είναι υποχρεωτική';
+		}
+		if (!values.matchStudyCountry) {
+			errors.matchStudyCountry = 'Η χώρα φοίτησης είναι υποχρεωτική';
+		}
+		if (!values.matchStudyCountryUni) {
+			errors.matchStudyCountryUni = 'Το πανεπιστήμιο φοίτησης είναι υποχρεωτικό';
+		}
+		if (!values.matchStudyTitle) {
+			errors.matchStudyTitle = 'Ο τίτλος φοίτησης είναι υποχρεωτικός';
+		}
 
 		if (values.attachments.length === 0) {
 			errors.attachments = 'Πρέπει να ανεβάσετε τουλάχιστον ένα αρχείο';
 		}
 
+		console.log(errors);
 		if (Object.keys(errors).length === 0) {
 			setEnableSubmit(true);
+		} else {
+			setEnableSubmit(false);
 		}
 
 		return errors;
@@ -152,13 +253,128 @@ const NewApplication = ({ exists = false }) => {
 
 	const formRef = useRef(null);
 
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const finalRef = useRef();
+	const renderStatus = () => {
+		switch (initialValues.status) {
+			case 1:
+				return (
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+						Υποβλήθηκε
+					</Text>
+				);
+			case 2:
+				return (
+					<Text fontWeight={'500'} color={'green'} p={'5px'} rounded={'md'}>
+						Εγκρίθηκε
+					</Text>
+				);
+			case 3:
+				return (
+					<Text fontWeight={'500'} color={'red'} p={'5px'} rounded={'md'}>
+						Απορρίφθηκε
+					</Text>
+				);
+			case 4:
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Αναμονή για ενημέρωση
+					</Text>
+				);
+			default:
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Δεν έχει υποβληθεί
+					</Text>
+				);
+		}
+	};
+
 	return (
 		<Flex flexDir={'column'} bgColor={'gray.50'} flex={1}>
 			<Title title={'Νέα Αίτηση'} />
-			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
+			<Flex
+				justifyContent={'space-between'}
+				py={'15px'}
+				px={'10px'}
+				bgColor={'#b6c3cf'}
+				alignItems={'center'}>
+				<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
+					<Text as={'span'} fontWeight={'700'}>
+						Κατάσταση:{' '}
+					</Text>
+					{renderStatus()}
+				</Flex>
+				<Flex gap={4}>
+					{initialValues.createdAt && (
+						<Flex
+							alignItems={'center'}
+							bgColor={'gray.100'}
+							p={'5px'}
+							rounded={'md'}
+							w={'250px'}
+							flexDir={'column'}>
+							<Text as={'span'} fontWeight={'700'}>
+								Ημερομηνία Δημιουργίας
+							</Text>
+							<Text>{new Date(initialValues.createdAt).toLocaleDateString()}</Text>
+						</Flex>
+					)}
+					{initialValues.updatedAt && (
+						<Flex
+							alignItems={'center'}
+							bgColor={'gray.100'}
+							p={'5px'}
+							w={'250px'}
+							rounded={'md'}
+							flexDir={'column'}>
+							<Text as={'span'} fontWeight={'700'}>
+								Ημερομηνία Επεξεργασίας
+							</Text>
+							<Text>{new Date(initialValues.updatedAt).toLocaleDateString()}</Text>
+						</Flex>
+					)}
+				</Flex>
+				<Flex gap={4}>
+					{initialValues.status !== 2 ? (
+						<Flex gap={4}>
+							<Button
+								colorScheme={'blue'}
+								rounded={'md'}
+								onClick={handleSave}
+								isDisabled={initialValues.status > 0}>
+								Προσωρινή Αποθήκευση
+							</Button>
+							<Button
+								colorScheme={'orange'}
+								rounded={'md'}
+								isDisabled={!enableSubmit}
+								type={'submit'}
+								onClick={handleSubmit}>
+								Υποβολή
+							</Button>
+						</Flex>
+					) : (
+						<Button
+							colorScheme={'green'}
+							rounded={'md'}
+							type={'submit'}
+							onClick={generatePDF}
+							leftIcon={<BsDownload />}>
+							Λήψη Αίτησης
+						</Button>
+					)}
 
+					<Button colorScheme={'gray'} onClick={onOpen}>
+						<Text>Προβολή Σχολίων</Text>
+					</Button>
+					<CommentModal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} />
+				</Flex>
+			</Flex>
+			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
 			<div>
 				<Formik
+					id={'form'}
 					enableReinitialize
 					innerRef={formRef}
 					initialValues={initialValues}
@@ -170,12 +386,11 @@ const NewApplication = ({ exists = false }) => {
 					{(props) => (
 						<Form>
 							<PersonalData {...formProps} />
-							<DegreeTitle {...formProps} />
-							<DegreeMatching {...formProps} />
+							<DegreeTitle {...formProps} formRef={formRef} />
+							<DegreeMatching {...formProps} formRef={formRef} />
 							<Attached
 								{...formProps}
 								handleChangeStatus={handleChangeStatus}
-								enableSubmit={enableSubmit}
 								init={attachments}
 								hasUploaded={application.isUploaded}
 							/>

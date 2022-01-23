@@ -6,7 +6,7 @@ import { approveApplication, rejectApplication } from '../../../../actions/admin
 import { useSelector, useDispatch } from 'react-redux';
 
 const Application = ({ application }) => {
-	const { createdAt, firstName, lastName, status, _id: id } = application;
+	let { createdAt, updatedAt, firstName, lastName, status, _id: id } = application;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { approve, reject } = useSelector((state) => state.admin);
@@ -35,22 +35,43 @@ const Application = ({ application }) => {
 	const renderStatus = () => {
 		switch (status) {
 			case 1:
-				return <Text color={'yellow.500'}>Εκκρεμεί</Text>;
+				return (
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+						Εκκρεμεί επεξεργασία απο διαχειριστή
+					</Text>
+				);
 			case 2:
-				return <Text color={'green.500'}>Εγκρίθηκε</Text>;
+				return (
+					<Text fontWeight={'500'} color={'green'} p={'5px'} rounded={'md'}>
+						Εγκρίθηκε
+					</Text>
+				);
 			case 3:
-				return <Text color={'red.500'}>Απορριφθηκε</Text>;
+				return (
+					<Text fontWeight={'500'} color={'red'} p={'5px'} rounded={'md'}>
+						Απορρίφθηκε
+					</Text>
+				);
 			case 4:
-				return <Text color={'gray.500'}>Αναμονή</Text>;
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Αναμονή για ενημέρωση απο χρήστη
+					</Text>
+				);
 
 			default:
-				return <Text>{status}</Text>;
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Δεν υπάρχει κατάσταση
+					</Text>
+				);
 		}
 	};
 	return (
 		<Tr>
 			<Td>4305</Td>
 			<Td>{new Date(createdAt).toDateString()}</Td>
+			<Td>{new Date(updatedAt).toDateString()}</Td>
 			<Td>
 				{firstName} {lastName}
 			</Td>

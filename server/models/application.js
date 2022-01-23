@@ -135,4 +135,17 @@ const applicationSchema = new Schema(
 	}
 );
 
+// applicationSchema.pre('save', function (next) {
+// 	var doc = this;
+
+// 	Application.findByIdAndUpdateAsync({ _id: this._id }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+// 		.then(function (count) {
+// 			doc.sort = count.seq;
+// 			next();
+// 		})
+// 		.catch(function (error) {
+// 			throw error;
+// 		});
+// });
+
 module.exports = mongoose.model('Application', applicationSchema);

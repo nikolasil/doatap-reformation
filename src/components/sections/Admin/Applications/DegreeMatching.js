@@ -44,10 +44,8 @@ const DegreeMatching = ({ status }) => {
 								isInvalid={form.errors.matchDegreeType && form.touched.matchDegreeType}
 								mt={'20px'}>
 								<FormLabel htmlFor='matchDegreeType'>Τύπος Πανεπιστημίου Ισοτιμίας</FormLabel>
-								<Select {...field} id='matchDegreeType'>
-									<option value='Πανεπιστήμιο'>Πανεπιστήμιο</option>
-									<option value='ΤΕΙ'>ΤΕΙ</option>
-								</Select>
+								<Input readOnly {...field} id='matchDegreeType' />
+
 								<FormErrorMessage>{form.errors.matchDegreeType}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -69,18 +67,7 @@ const DegreeMatching = ({ status }) => {
 							isInvalid={form.errors.matchStudyCountry && form.touched.matchStudyCountry}
 							mt={'20px'}>
 							<FormLabel htmlFor='matchStudyCountry'>Χώρα Πανεπιστημίου</FormLabel>
-							<Select
-								{...field}
-								id='matchStudyCountry'
-								value={matchStudyCountry}
-								onChange={(e) => setMatchStudyCountry(e.target.value)}
-								placeholder='Επιλέξτε Χώρα Σπουδών'>
-								{countries.map((country, index) => (
-									<option key={index} value={country.code}>
-										{country.name}
-									</option>
-								))}
-							</Select>
+							<Input readOnly {...field} id='matchStudyCountry' />
 							<FormErrorMessage>{form.errors.matchStudyCountry}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -93,18 +80,7 @@ const DegreeMatching = ({ status }) => {
 							isInvalid={form.errors.matchStudyCountryUni && form.touched.matchStudyCountryUni}
 							mt={'20px'}>
 							<FormLabel htmlFor='matchStudyCountryUni'>Πανεπιστήμιο Φοίτησης</FormLabel>
-							<Select
-								{...field}
-								id='matchStudyCountryUni'
-								placeholder='Επιλέξτε Πανεπιστήμιο Φοίτησης'>
-								{universities
-									.filter((uni) => uni.alpha_two_code === matchStudyCountry)
-									.map((uni, index) => (
-										<option key={index} value={uni.name}>
-											{uni.name}
-										</option>
-									))}
-							</Select>
+							<Input readOnly {...field} id='matchStudyCountryUni' />
 							<FormErrorMessage>{form.errors.matchStudyCountryUni}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -117,16 +93,16 @@ const DegreeMatching = ({ status }) => {
 							isInvalid={form.errors.matchStudyTitle && form.touched.matchStudyTitle}
 							mt={'20px'}>
 							<FormLabel htmlFor='matchStudyTitle'>Τίτλος Σπουδών</FormLabel>
-							<Input {...field} id='matchStudyTitle' placeholder='Εισάγετε Τίτλο Σπουδών' />
+							<Input
+								readOnly
+								{...field}
+								id='matchStudyTitle'
+								placeholder='Εισάγετε Τίτλο Σπουδών'
+							/>
 							<FormErrorMessage>{form.errors.matchStudyTitle}</FormErrorMessage>
 						</FormControl>
 					)}
 				</Field>
-			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} >
-					Προσωρινή Αποθήκευση
-				</Button>
 			</Flex>
 		</Flex>
 	);

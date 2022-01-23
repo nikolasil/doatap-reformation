@@ -13,34 +13,43 @@ import {
 	RadioGroup,
 	Stack,
 	Radio,
-	Button,
+	Link,
+	Tag,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import 'react-dropzone-uploader/dist/styles.css';
 import { Dropzone, FileItem } from '@dropzone-ui/react';
 import 'animate.css';
+import { BsDownload } from 'react-icons/bs';
+
+const base64toBlob = (data) => {
+	// Cut the prefix `data:application/pdf;base64` from the raw base 64
+	const base64WithoutPrefix = data.substr('data:application/pdf;base64,'.length);
+
+	const bytes = atob(base64WithoutPrefix);
+	let length = bytes.length;
+	let out = new Uint8Array(length);
+
+	while (length--) {
+		out[length] = bytes.charCodeAt(length);
+	}
+
+	return new Blob([out], { type: 'application/pdf' });
+};
+
+Number.prototype.formatBytes = function () {
+	var units = ['B', 'KB', 'MB', 'GB', 'TB'],
+		bytes = this,
+		i;
+
+	for (i = 0; bytes >= 1024 && i < 4; i++) {
+		bytes /= 1024;
+	}
+
+	return bytes.toFixed(2) + units[i];
+};
 
 const Attached = ({ status, init, hasUploaded = false }) => {
-	const [files, setFiles] = useState([]);
-
-	useEffect(() => {
-		let newFiles = [];
-		console.log(init, files);
-		newFiles = init.filter((x) => !files.some((y) => x.originalname === y.file.name));
-		if (newFiles.length > 0 && !hasUploaded) {
-			console.log('we have new files', newFiles);
-			newFiles = newFiles.map((x, index) => ({
-				errors: [],
-				valid: true,
-				id: index,
-				file: new File([x.buffer], x.originalname, { type: x.mimetype }),
-			}));
-			setFiles((prev) => [...prev, ...newFiles]);
-		} else {
-			console.log('we dont have new files');
-		}
-	}, [init]);
-
 	return (
 		<Flex
 			flexDir={'column'}
@@ -61,11 +70,32 @@ const Attached = ({ status, init, hasUploaded = false }) => {
 								Αρχεία
 							</FormLabel>
 							<Box fontSize={'16px'} w={'50vw'}>
-								<Dropzone value={files}>
-									{files.map((file, index) => {
-										return <FileItem key={index} {...file} preview />;
-									})}
-								</Dropzone>
+								{init.map((file, index) => (
+									<div key={index}>
+										<Flex my={'10px'} justifyContent={'space-between'}>
+											<Flex gap={2}>
+												<Text>{file.originalname}</Text>
+												<Text> ({file.size.formatBytes()})</Text>
+											</Flex>
+
+											<Flex>
+												<Link
+													download
+													href={URL.createObjectURL(
+														base64toBlob(
+															`data:application/pdf;base64,${file.buffer}`
+														)
+													)}>
+													<Flex alignItems={'center'} gap={2}>
+														<BsDownload size={'1.2rem'} />
+														<Text as={'span'}>Λήψη</Text>
+													</Flex>
+												</Link>
+											</Flex>
+										</Flex>
+										<Divider />
+									</div>
+								))}
 							</Box>
 							<FormErrorMessage>
 								{form.errors.attachments && form.touched.attachments
@@ -75,15 +105,6 @@ const Attached = ({ status, init, hasUploaded = false }) => {
 						</FormControl>
 					)}
 				</Field>
-
-				<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-					<Button colorScheme={'blue'} rounded={'md'}>
-						Προσωρινή Αποθήκευση
-					</Button>
-					<Button colorScheme={'orange'} rounded={'md'} type={'submit'}>
-						Υποβολή
-					</Button>
-				</Flex>
 			</Flex>
 		</Flex>
 	);

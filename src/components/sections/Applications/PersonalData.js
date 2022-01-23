@@ -18,7 +18,6 @@ import 'animate.css';
 
 const PersonalData = ({ saveForm, status }) => {
 	const { application } = useSelector((state) => state.applications);
-	const [idType, setIdType] = useState('Ταυτότητα');
 
 	return (
 		<Flex
@@ -82,9 +81,9 @@ const PersonalData = ({ saveForm, status }) => {
 							w={'10%'}>
 							<FormLabel htmlFor='gender'>Φύλο</FormLabel>
 							<Select {...field} placeholder='Επιλέξτε'>
-								<option value='option1'>Άντρας</option>
-								<option value='option2'>Γυναίκα</option>
-								<option value='option3'>Άλλο</option>
+								<option value='Άντρας'>Άντρας</option>
+								<option value='Γυναίκα'>Γυναίκα</option>
+								<option value='Αλλο'>Άλλο</option>
 							</Select>
 							<FormErrorMessage>{form.errors.gender}</FormErrorMessage>
 						</FormControl>
@@ -259,11 +258,7 @@ const PersonalData = ({ saveForm, status }) => {
 					{({ field, form }) => (
 						<FormControl isInvalid={form.errors.idType && form.touched.idType} mt={'20px'}>
 							<FormLabel htmlFor='idType'>Τύπος Ταυτοποίησης</FormLabel>
-							<Select
-								{...field}
-								id='idType'
-								value={idType}
-								onChange={(e) => setIdType(e.target.value)}>
+							<Select {...field} id='idType' placeholder='Επιλέξτε'>
 								<option value='Ταυτότητα'>Ταυτότητα</option>
 								<option value='Διαβατήριο'>Διαβατήριο</option>
 							</Select>
@@ -280,65 +275,24 @@ const PersonalData = ({ saveForm, status }) => {
 						</FormControl>
 					)}
 				</Field>
-
-				{idType === 'Ταυτότητα' ? (
-					<Field name='idDate'>
-						{({ field, form }) => (
-							<FormControl isInvalid={form.errors.idDate && form.touched.idDate} mt={'20px'}>
-								<FormLabel htmlFor='idDate'>Ημερομηνία Έκδοσης</FormLabel>
-								<Input {...field} type='date' id='idDate' placeholder='Ημερομηνία Έκδοσης' />
-								<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
-							</FormControl>
-						)}
-					</Field>
-				) : (
-					<Field name='idDate'>
-						{({ field, form }) => (
-							<FormControl isInvalid={form.errors.idDate && form.touched.idDate} mt={'20px'}>
-								<FormLabel htmlFor='idDate'>Ημερομηνία Λήξης</FormLabel>
-								<Input {...field} type='date' id='idDate' placeholder='Ημερομηνία Λήξης' />
-								<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
-							</FormControl>
-						)}
-					</Field>
-				)}
-
-				{idType === 'Ταυτότητα' ? (
-					<Field name='authority'>
-						{({ field, form }) => (
-							<FormControl
-								isInvalid={form.errors.authority && form.touched.authority}
-								mt={'20px'}>
-								<FormLabel htmlFor='authority'>Εκδούσα Αρχή</FormLabel>
-								<Input {...field} type='text' id='authority' placeholder='Εκδούσα Αρχή' />
-								<FormErrorMessage>{form.errors.authority}</FormErrorMessage>
-							</FormControl>
-						)}
-					</Field>
-				) : (
-					<Field name='authority'>
-						{({ field, form }) => (
-							<FormControl
-								isInvalid={form.errors.authority && form.touched.authority}
-								mt={'20px'}>
-								<FormLabel htmlFor='authority'>Χώρα Έκδοσης</FormLabel>
-								<Select {...field} id='birth_country' placeholder='Επιλέξτε Χώρα Γέννησης'>
-									{countries.map((country, index) => (
-										<option key={index} value={country.code}>
-											{country.name}
-										</option>
-									))}
-								</Select>
-								<FormErrorMessage>{form.errors.authority}</FormErrorMessage>
-							</FormControl>
-						)}
-					</Field>
-				)}
-			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
-					Προσωρινή Αποθήκευση
-				</Button>
+				<Field name='idDate'>
+					{({ field, form }) => (
+						<FormControl isInvalid={form.errors.idDate && form.touched.idDate} mt={'20px'}>
+							<FormLabel htmlFor='idDate'>Ημερομηνία Έκδοσης</FormLabel>
+							<Input {...field} type='date' id='idDate' placeholder='Ημερομηνία Έκδοσης' />
+							<FormErrorMessage>{form.errors.idDate}</FormErrorMessage>
+						</FormControl>
+					)}
+				</Field>
+				<Field name='authority'>
+					{({ field, form }) => (
+						<FormControl isInvalid={form.errors.authority && form.touched.authority} mt={'20px'}>
+							<FormLabel htmlFor='authority'>Εκδούσα Αρχή</FormLabel>
+							<Input {...field} type='text' id='authority' placeholder='Εκδούσα Αρχή' />
+							<FormErrorMessage>{form.errors.authority}</FormErrorMessage>
+						</FormControl>
+					)}
+				</Field>
 			</Flex>
 		</Flex>
 	);

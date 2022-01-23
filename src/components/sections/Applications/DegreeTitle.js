@@ -19,7 +19,7 @@ import countries from '../../../data/form/countries.json';
 import universities from '../../../data/form/universities.json';
 import 'animate.css';
 
-const DegreeTitle = ({ saveForm, status }) => {
+const DegreeTitle = ({ formRef, status }) => {
 	const [studyCountry, setStudyCountry] = useState('GR');
 
 	return (
@@ -45,7 +45,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 								isInvalid={form.errors.degreeType && form.touched.degreeType}
 								mt={'20px'}>
 								<FormLabel htmlFor='degreeType'>Τύπος Πανεπιστημίου Ισοτιμίας</FormLabel>
-								<Select {...field} id='degreeType'>
+								<Select {...field} id='degreeType' placeholder='Επιλέξτε'>
 									<option value='Πανεπιστήμιο'>Πανεπιστήμιο</option>
 									<option value='ΤΕΙ'>ΤΕΙ</option>
 								</Select>
@@ -70,12 +70,7 @@ const DegreeTitle = ({ saveForm, status }) => {
 							isInvalid={form.errors.studyCountry && form.touched.studyCountry}
 							mt={'20px'}>
 							<FormLabel htmlFor='studyCountry'>Χώρα Φοίτησης</FormLabel>
-							<Select
-								{...field}
-								id='studyCountry'
-								value={studyCountry}
-								onChange={(e) => setStudyCountry(e.target.value)}
-								placeholder='Επιλέξτε Χώρα Σπουδών'>
+							<Select id='studyCountry' {...field} placeholder='Επιλέξτε Χώρα Σπουδών'>
 								{countries.map((country, index) => (
 									<option key={index} value={country.code}>
 										{country.name}
@@ -98,13 +93,11 @@ const DegreeTitle = ({ saveForm, status }) => {
 								{...field}
 								id='studyCountryUni'
 								placeholder='Επιλέξτε Πανεπιστήμιο Φοίτησης'>
-								{universities
-									.filter((uni) => uni.alpha_two_code === studyCountry)
-									.map((uni, index) => (
-										<option key={index} value={uni.name}>
-											{uni.name}
-										</option>
-									))}
+								{universities.map((uni, index) => (
+									<option key={index} value={uni.name}>
+										{uni.name}
+									</option>
+								))}
 							</Select>
 							<FormErrorMessage>{form.errors.studyCountryUni}</FormErrorMessage>
 						</FormControl>
@@ -194,11 +187,6 @@ const DegreeTitle = ({ saveForm, status }) => {
 						</FormControl>
 					)}
 				</Field>
-			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
-					Προσωρινή Αποθήκευση
-				</Button>
 			</Flex>
 		</Flex>
 	);

@@ -74,22 +74,11 @@ const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, ha
 								</Dropzone>
 							</Box>
 							<FormErrorMessage>
-								{form.errors.attachments && form.touched.attachments
-									? form.errors.attachments
-									: ''}
+								{form.errors.attachments && form.errors.attachments}
 							</FormErrorMessage>
 						</FormControl>
 					)}
 				</Field>
-
-				<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-					<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
-						Προσωρινή Αποθήκευση
-					</Button>
-					<Button colorScheme={'orange'} rounded={'md'} isDisabled={!enableSubmit} type={'submit'}>
-						Υποβολή
-					</Button>
-				</Flex>
 			</Flex>
 		</Flex>
 	);

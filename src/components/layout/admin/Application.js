@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Title from '../../ui/Title';
-import { Flex, Text, useToast } from '@chakra-ui/react';
+import { Flex, Text, useToast, Button, useDisclosure } from '@chakra-ui/react';
 import StatusBar from '../../sections/Applications/StatusBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { submitNewApplication } from '../../../actions/applications/applications';
@@ -12,7 +12,8 @@ import DegreeMatching from '../../sections/Admin/Applications/DegreeMatching';
 import Attached from '../../sections/Admin/Applications/Attached';
 import { getApplication } from '../../../actions/admin/admin';
 import { Formik, Form, Field } from 'formik';
-
+import { approveApplication, rejectApplication } from '../../../actions/admin/admin';
+import CommentModal from '../../sections/Admin/Applications/CommentModal';
 let init = {
 	//Personal Data
 	firstName: '',
@@ -68,12 +69,76 @@ const Application = () => {
 	const [enableSubmit, setEnableSubmit] = useState(false);
 	const [initialValues, setInitialValues] = useState(init);
 
+	const { approve, reject } = useSelector((state) => state.admin);
+	const [hasSubmitted, setHasSubmitted] = useState(false);
+
+	const handleReject = () => {
+		setHasSubmitted(true);
+		dispatch(rejectApplication(params.id));
+	};
+
+	const handleApprove = () => {
+		setHasSubmitted(true);
+		dispatch(approveApplication(params.id));
+	};
+
+	useEffect(() => {
+		if (!approve.isLoading) {
+			setHasSubmitted(false);
+		}
+	}, [approve]);
+
+	useEffect(() => {
+		if (!reject.isLoading) {
+			setHasSubmitted(false);
+		}
+	}, [reject]);
+
 	useEffect(() => {
 		dispatch(getApplication(params.id));
 	}, []);
 
 	const formProps = {
 		status: activeStatus,
+	};
+
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const finalRef = useRef();
+
+	const renderStatus = () => {
+		switch (initialValues.status) {
+			case 1:
+				return (
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+						Εκκρεμεί επεξεργασία απο διαχειριστή
+					</Text>
+				);
+			case 2:
+				return (
+					<Text fontWeight={'500'} color={'green'} p={'5px'} rounded={'md'}>
+						Εγκρίθηκε
+					</Text>
+				);
+			case 3:
+				return (
+					<Text fontWeight={'500'} color={'red'} p={'5px'} rounded={'md'}>
+						Απορρίφθηκε
+					</Text>
+				);
+			case 4:
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Αναμονή για ενημέρωση απο χρήστη
+					</Text>
+				);
+
+			default:
+				return (
+					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+						Δεν υπάρχει κατάσταση
+					</Text>
+				);
+		}
 	};
 
 	useEffect(() => {
@@ -86,19 +151,78 @@ const Application = () => {
 					isClosable: true,
 				});
 				return navigate('/admin/applications');
-			} else if (application.isFetched) {
+			} else if (application.application) {
 				console.log(application);
 				setInitialValues(application.application);
 				setAttachments(application.application.attachments);
 			}
 		}
 	}, [application]);
+
 	return (
 		<Flex flexDir={'column'}>
 			<Flex flexDir={'column'} bgColor={'gray.50'} flex={1}>
 				<Title title={'Νέα Αίτηση'} />
+				<Flex
+					justifyContent={'space-between'}
+					py={'15px'}
+					px={'10px'}
+					bgColor={'#b6c3cf'}
+					alignItems={'center'}>
+					<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
+						<Text as={'span'} fontWeight={'700'}>
+							Κατάσταση:{' '}
+						</Text>
+						{renderStatus()}
+					</Flex>
+					<Flex gap={4}>
+						<Flex
+							alignItems={'center'}
+							bgColor={'gray.100'}
+							p={'5px'}
+							rounded={'md'}
+							w={'250px'}
+							flexDir={'column'}>
+							<Text as={'span'} fontWeight={'700'}>
+								Ημερομηνία Δημιουργίας
+							</Text>
+							<Text>{new Date(initialValues.createdAt).toLocaleDateString()}</Text>
+						</Flex>
+						<Flex
+							alignItems={'center'}
+							bgColor={'gray.100'}
+							p={'5px'}
+							w={'250px'}
+							rounded={'md'}
+							flexDir={'column'}>
+							<Text as={'span'} fontWeight={'700'}>
+								Ημερομηνία Επεξεργασίας
+							</Text>
+							<Text>{new Date(initialValues.updatedAt).toLocaleDateString()}</Text>
+						</Flex>
+					</Flex>
+					<Flex gap={4}>
+						<Button
+							colorScheme={'green'}
+							onClick={handleApprove}
+							isLoading={approve.isLoading}
+							isDisabled={initialValues.status && initialValues.status === 2}>
+							<Text>Έγκριση</Text>
+						</Button>
+						<Button
+							colorScheme={'red'}
+							onClick={handleReject}
+							isLoading={reject.isLoading}
+							isDisabled={initialValues.status && initialValues.status === 3}>
+							<Text>Απόρριψη</Text>
+						</Button>
+						<Button colorScheme={'gray'} onClick={onOpen}>
+							<Text>Προσθήκη Σχολίων</Text>
+						</Button>
+						<CommentModal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} />
+					</Flex>
+				</Flex>
 				<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
-
 				<div>
 					<Formik enableReinitialize initialValues={initialValues}>
 						{(props) => (
@@ -117,136 +241,3 @@ const Application = () => {
 };
 
 export default Application;
-
-// const NewApplication = ({ exists = false }) => {
-// 	const toast = useToast();
-// 	const dispatch = useDispatch();
-// 	const params = useParams();
-// 	const navigate = useNavigate();
-
-// 	const { application } = useSelector((state) => state.applications);
-// 	const [activeStatus, setActiveStatus] = useState('personal-data');
-// 	const [enableSubmit, setEnableSubmit] = useState(false);
-// 	const [initialValues, setInitialValues] = useState(init);
-// 	const [attachments, setAttachments] = useState([]);
-
-// 	const [firstTime, setFirstTime] = useState(true);
-
-// 	useEffect(() => {
-// 		if (exists) {
-// 			dispatch(getApplication(params.id));
-// 		}
-// 	}, []);
-
-// 	useEffect(() => {
-// 		if (!application.isLoading && exists) {
-// 			if (application.error) {
-// 				toast({
-// 					title: 'Δεν βρέθηκε η αίτηση',
-// 					status: 'error',
-// 					duration: 5000,
-// 					isClosable: true,
-// 				});
-// 				return navigate('/account');
-// 			} else if (application.isFetched) {
-// 				setInitialValues(application.application);
-// 				setAttachments(application.application.attachments);
-// 			}
-// 		}
-// 	}, [application]);
-
-// 	useEffect(() => {
-// 		if (!exists && !application.isLoading && application.isUploaded) {
-// 			navigate(`/applications/${application.newId}`);
-// 		}
-// 	}, [application]);
-
-// 	const handleSave = () => {
-// 		dispatch(submitNewApplication(formRef.current.values));
-// 	};
-// 	const handleSubmit = () => {
-// 		dispatch(submitNewApplication({ ...formRef.current.values, status: 1 }));
-// 	};
-
-// 	const handleValidation = () => {
-// 		const errors = {};
-// 		let values;
-// 		if (exists && firstTime) {
-// 			values = initialValues;
-// 			formRef.current.values = initialValues;
-// 			setFirstTime(false);
-// 		} else {
-// 			values = formRef.current.values;
-// 		}
-
-// 		if (!values.firstName) {
-// 			errors.firstName = 'Το όνομα είναι υποχρεωτικό';
-// 		}
-// 		if (!values.lastName) {
-// 			errors.lastName = 'Το επώνυμο είναι υποχρεωτικό';
-// 		}
-// 		if (!values.fatherName) {
-// 			errors.fatherName = 'Το πατρώνυμο είναι υποχρεωτικό';
-// 		}
-
-// 		if (values.attachments.length === 0) {
-// 			errors.attachments = 'Πρέπει να ανεβάσετε τουλάχιστον ένα αρχείο';
-// 		}
-
-// 		if (Object.keys(errors).length === 0) {
-// 			setEnableSubmit(true);
-// 		}
-
-// 		return errors;
-// 	};
-
-// 	const handleChangeStatus = (files) => {
-// 		console.log(files);
-// 		formRef.current.values.attachments = files.map((file) => file.file);
-// 		handleValidation();
-// 	};
-
-// 	const formProps = {
-// 		onSubmit: handleSubmit,
-// 		saveForm: handleSave,
-// 		status: activeStatus,
-// 	};
-
-// 	const formRef = useRef(null);
-
-// 	return (
-// 		<Flex flexDir={'column'} bgColor={'gray.50'} flex={1}>
-// 			<Title title={'Νέα Αίτηση'} />
-// 			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />
-
-// 			<div>
-// 				<Formik
-// 					enableReinitialize
-// 					innerRef={formRef}
-// 					initialValues={initialValues}
-// 					validate={handleValidation}
-// 					validateOnMount
-// 					onSubmit={(values) => {
-// 						console.log(formRef.current);
-// 					}}>
-// 					{(props) => (
-// 						<Form>
-// 							<PersonalData {...formProps} />
-// 							<DegreeTitle {...formProps} />
-// 							<DegreeMatching {...formProps} />
-// 							<Attached
-// 								{...formProps}
-// 								handleChangeStatus={handleChangeStatus}
-// 								enableSubmit={enableSubmit}
-// 								init={attachments}
-// 								hasUploaded={application.isUploaded}
-// 							/>
-// 						</Form>
-// 					)}
-// 				</Formik>
-// 			</div>
-// 		</Flex>
-// 	);
-// };
-
-// export default NewApplication;

@@ -5,19 +5,25 @@ exports.createApplication = async (req, res) => {
 	try {
 		let application;
 		if (req.body._id != null) {
-			console.log(req.body);
-			application = await Application.findByIdAndUpdate(req.body._id, req.body, {
-				new: true,
-				// status: req.body.status && req.body.status,
-			});
+			application = await Application.findByIdAndUpdate(
+				req.body._id,
+				{
+					...req.body,
+					attachments: req.files,
+				},
+				{
+					new: true,
+					// status: req.body.status && req.body.status,
+				}
+			);
 		} else {
 			console.log('new');
 			application = new Application({
 				...req.body,
 				belongsTo: req.user._id,
 			});
+			application.attachments = req.files;
 		}
-		application.attachments = req.files;
 		const result = await application.save();
 
 		res.status(201).json({

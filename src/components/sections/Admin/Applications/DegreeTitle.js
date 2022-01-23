@@ -45,10 +45,7 @@ const DegreeTitle = ({ status }) => {
 								isInvalid={form.errors.degreeType && form.touched.degreeType}
 								mt={'20px'}>
 								<FormLabel htmlFor='degreeType'>Τύπος Πανεπιστημίου Ισοτιμίας</FormLabel>
-								<Input {...field} id='degreeType' readOnly>
-									<option value='Πανεπιστήμιο'>Πανεπιστήμιο</option>
-									<option value='ΤΕΙ'>ΤΕΙ</option>
-								</Input>
+								<Input {...field} id='degreeType' disabled />
 								<FormErrorMessage>{form.errors.degreeType}</FormErrorMessage>
 							</FormControl>
 						)}
@@ -70,18 +67,8 @@ const DegreeTitle = ({ status }) => {
 							isInvalid={form.errors.studyCountry && form.touched.studyCountry}
 							mt={'20px'}>
 							<FormLabel htmlFor='studyCountry'>Χώρα Φοίτησης</FormLabel>
-							<Select
-								{...field}
-								id='studyCountry'
-								value={studyCountry}
-								onChange={(e) => setStudyCountry(e.target.value)}
-								placeholder='Επιλέξτε Χώρα Σπουδών'>
-								{countries.map((country, index) => (
-									<option key={index} value={country.code}>
-										{country.name}
-									</option>
-								))}
-							</Select>
+							<Input {...field} id='studyCountry' disabled />
+
 							<FormErrorMessage>{form.errors.studyCountry}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -94,18 +81,7 @@ const DegreeTitle = ({ status }) => {
 							isInvalid={form.errors.studyCountryUni && form.touched.studyCountryUni}
 							mt={'20px'}>
 							<FormLabel htmlFor='studyCountryUni'>Πανεπιστήμιο Φοίτησης</FormLabel>
-							<Select
-								{...field}
-								id='studyCountryUni'
-								placeholder='Επιλέξτε Πανεπιστήμιο Φοίτησης'>
-								{universities
-									.filter((uni) => uni.alpha_two_code === studyCountry)
-									.map((uni, index) => (
-										<option key={index} value={uni.name}>
-											{uni.name}
-										</option>
-									))}
-							</Select>
+							<Input {...field} id='studyCountryUni' readOnly />
 							<FormErrorMessage>{form.errors.studyCountryUni}</FormErrorMessage>
 						</FormControl>
 					)}
@@ -178,30 +154,18 @@ const DegreeTitle = ({ status }) => {
 					)}
 				</Field>
 			</Flex>
-			<Flex w={'50%'}>
+			<Flex w={'15%'}>
 				<Field name={'studyDuration'}>
 					{({ field, form }) => (
 						<FormControl
 							isInvalid={form.errors.studyDuration && form.touched.studyDuration}
 							mt={'20px'}>
 							<FormLabel htmlFor='studyDuration'>Διάρκεια Σπουδών</FormLabel>
-							<Select {...field} id='studyDuration' placeholder='Επιλέξτε Έτη Σπουδών'>
-								<option value='1'>1</option>
-								<option value='2'>2</option>
-								<option value='3'>3</option>
-								<option value='4'>4</option>
-								<option value='5'>5</option>
-								<option value='6'>6</option>
-							</Select>
+							<Input readOnly {...field} id='studyDuration' />
 							<FormErrorMessage>{form.errors.studyDuration}</FormErrorMessage>
 						</FormControl>
 					)}
 				</Field>
-			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'}>
-					Προσωρινή Αποθήκευση
-				</Button>
 			</Flex>
 		</Flex>
 	);

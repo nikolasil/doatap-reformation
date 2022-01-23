@@ -7,6 +7,7 @@ import Header from './components/ui/Header';
 import Applications from './components/layout/admin/Applications';
 import AdminPrivateRoute from './components/Routing/AdminPrivateRoute';
 import Application from './components/layout/admin/Application';
+import Account from './components/layout/admin/Account';
 import { useDispatch } from 'react-redux';
 import { loadAdminUser } from './actions/admin/admin';
 
@@ -38,6 +39,15 @@ const Admin = () => {
 					element={
 						<AdminPrivateRoute>
 							<Application />
+						</AdminPrivateRoute>
+					}
+				/>
+				<Route
+					exact
+					path='/account'
+					element={
+						<AdminPrivateRoute>
+							<Account />
 						</AdminPrivateRoute>
 					}
 				/>

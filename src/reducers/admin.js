@@ -148,6 +148,10 @@ export default (state = initialState, action) => {
 						return application;
 					}),
 				},
+				application: {
+					...state.application,
+					application: payload.application,
+				},
 			};
 		}
 		case types.APPROVE_APPLICATION_FAILURE: {
@@ -190,6 +194,10 @@ export default (state = initialState, action) => {
 						}
 						return application;
 					}),
+				},
+				application: {
+					...state.application,
+					application: payload.application,
 				},
 			};
 		}

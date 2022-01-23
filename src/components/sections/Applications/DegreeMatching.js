@@ -19,7 +19,7 @@ import countries from '../../../data/form/countries.json';
 import universities from '../../../data/form/universities.json';
 import 'animate.css';
 
-const DegreeMatching = ({ saveForm, status }) => {
+const DegreeMatching = ({ saveForm, status, formRef }) => {
 	const [matchStudyCountry, setMatchStudyCountry] = useState('GR');
 
 	return (
@@ -44,7 +44,7 @@ const DegreeMatching = ({ saveForm, status }) => {
 								isInvalid={form.errors.matchDegreeType && form.touched.matchDegreeType}
 								mt={'20px'}>
 								<FormLabel htmlFor='matchDegreeType'>Τύπος Πανεπιστημίου Ισοτιμίας</FormLabel>
-								<Select {...field} id='matchDegreeType'>
+								<Select {...field} id='matchDegreeType' placeholder='Επιλέξτε'>
 									<option value='Πανεπιστήμιο'>Πανεπιστήμιο</option>
 									<option value='ΤΕΙ'>ΤΕΙ</option>
 								</Select>
@@ -69,12 +69,7 @@ const DegreeMatching = ({ saveForm, status }) => {
 							isInvalid={form.errors.matchStudyCountry && form.touched.matchStudyCountry}
 							mt={'20px'}>
 							<FormLabel htmlFor='matchStudyCountry'>Χώρα Πανεπιστημίου</FormLabel>
-							<Select
-								{...field}
-								id='matchStudyCountry'
-								value={matchStudyCountry}
-								onChange={(e) => setMatchStudyCountry(e.target.value)}
-								placeholder='Επιλέξτε Χώρα Σπουδών'>
+							<Select id='matchStudyCountry' {...field} placeholder='Επιλέξτε Χώρα Σπουδών'>
 								{countries.map((country, index) => (
 									<option key={index} value={country.code}>
 										{country.name}
@@ -97,13 +92,11 @@ const DegreeMatching = ({ saveForm, status }) => {
 								{...field}
 								id='matchStudyCountryUni'
 								placeholder='Επιλέξτε Πανεπιστήμιο Φοίτησης'>
-								{universities
-									.filter((uni) => uni.alpha_two_code === matchStudyCountry)
-									.map((uni, index) => (
-										<option key={index} value={uni.name}>
-											{uni.name}
-										</option>
-									))}
+								{universities.map((uni, index) => (
+									<option key={index} value={uni.name}>
+										{uni.name}
+									</option>
+								))}
 							</Select>
 							<FormErrorMessage>{form.errors.matchStudyCountryUni}</FormErrorMessage>
 						</FormControl>
@@ -122,11 +115,6 @@ const DegreeMatching = ({ saveForm, status }) => {
 						</FormControl>
 					)}
 				</Field>
-			</Flex>
-			<Flex mt={'50px'} justifyContent={'right'} gap={4}>
-				<Button colorScheme={'blue'} rounded={'md'} onClick={saveForm}>
-					Προσωρινή Αποθήκευση
-				</Button>
 			</Flex>
 		</Flex>
 	);
