@@ -21,7 +21,7 @@ const ApplicationsList = () => {
 		switch (status) {
 			case 1:
 				return (
-					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'blue'} p={'5px'} rounded={'md'}>
 						Υποβλήθηκε
 					</Text>
 				);
@@ -39,7 +39,7 @@ const ApplicationsList = () => {
 				);
 			case 4:
 				return (
-					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
 						Αναμονή για ενημέρωση
 					</Text>
 				);
@@ -67,7 +67,12 @@ const ApplicationsList = () => {
 						</Thead>
 						<Tbody>
 							{applications.applications.map((application) => (
-								<Tr>
+								<Tr
+									cursor={'pointer'}
+									onClick={() => navigate(`/applications/${application._id}`)}
+									_hover={{
+										bgColor: 'gray.100',
+									}}>
 									<Td>
 										<Flex gap={2}>
 											<FaPencilAlt
@@ -75,7 +80,7 @@ const ApplicationsList = () => {
 												cursor={'pointer'}
 												onClick={() => navigate(`/applications/${application._id}`)}
 											/>
-											<Text>Αίτηση #</Text>
+											<Text> {application._id}</Text>
 										</Flex>
 									</Td>
 									<Td>{new Date(application.createdAt).toDateString()}</Td>

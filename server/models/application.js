@@ -3,11 +3,10 @@ const Schema = mongoose.Schema;
 
 const applicationSchema = new Schema(
 	{
-		// identifier: {
-		// 	type: Number,
-		// 	increment: true,
-		// 	default: 0,
-		// },
+		identifier: {
+			type: Number,
+			default: 0,
+		},
 		belongsTo: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
@@ -129,23 +128,15 @@ const applicationSchema = new Schema(
 			// 	type: Buffer,
 			// },
 		],
+		comments: {
+			type: String,
+		},
 	},
 	{
 		timestamps: true,
 	}
 );
 
-// applicationSchema.pre('save', function (next) {
-// 	var doc = this;
+const Application = mongoose.model('Application', applicationSchema);
 
-// 	Application.findByIdAndUpdateAsync({ _id: this._id }, { $inc: { seq: 1 } }, { new: true, upsert: true })
-// 		.then(function (count) {
-// 			doc.sort = count.seq;
-// 			next();
-// 		})
-// 		.catch(function (error) {
-// 			throw error;
-// 		});
-// });
-
-module.exports = mongoose.model('Application', applicationSchema);
+module.exports = Application;

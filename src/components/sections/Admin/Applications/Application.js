@@ -36,7 +36,7 @@ const Application = ({ application }) => {
 		switch (status) {
 			case 1:
 				return (
-					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'blue'} p={'5px'} rounded={'md'}>
 						Εκκρεμεί επεξεργασία απο διαχειριστή
 					</Text>
 				);
@@ -54,7 +54,7 @@ const Application = ({ application }) => {
 				);
 			case 4:
 				return (
-					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
 						Αναμονή για ενημέρωση απο χρήστη
 					</Text>
 				);
@@ -68,8 +68,13 @@ const Application = ({ application }) => {
 		}
 	};
 	return (
-		<Tr>
-			<Td>4305</Td>
+		<Tr
+			cursor={'pointer'}
+			onClick={() => navigate(`/admin/applications/${id}`)}
+			_hover={{
+				bgColor: 'gray.100',
+			}}>
+			<Td>{id}</Td>
 			<Td>{new Date(createdAt).toDateString()}</Td>
 			<Td>{new Date(updatedAt).toDateString()}</Td>
 			<Td>

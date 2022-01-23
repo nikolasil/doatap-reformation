@@ -50,7 +50,7 @@ const StatusBar = ({ active, onSelect }) => {
 						borderRadius={'100px'}
 						boxSize={'15px'}
 						bg={active === 'degree-matching' ? 'gray.800' : 'gray.500'}></Box>
-					<Text mt={'5px'}>Αντιστοίχιση Τίτλου</Text>
+					<Text mt={'5px'}>Συνεκτίμηση Τίτλου</Text>
 				</Flex>
 			</Flex>
 			<BsArrowRightShort size={'2rem'} />

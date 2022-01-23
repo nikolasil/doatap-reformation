@@ -12,8 +12,8 @@ import DegreeMatching from '../../sections/Applications/DegreeMatching';
 import Attached from '../../sections/Applications/Attached';
 import { getApplication } from '../../../actions/applications/applications';
 import { Formik, Form, Field } from 'formik';
-import CommentModal from '../../sections/Admin/Applications/CommentModal';
-import { BsDownload } from 'react-icons/bs';
+import CommentModal from '../../sections/Applications/CommentModal';
+import { BsDownload, BsArrowLeftSquare } from 'react-icons/bs';
 
 let init = {
 	//Personal Data
@@ -229,7 +229,6 @@ const NewApplication = ({ exists = false }) => {
 			errors.attachments = 'Πρέπει να ανεβάσετε τουλάχιστον ένα αρχείο';
 		}
 
-		console.log(errors);
 		if (Object.keys(errors).length === 0) {
 			setEnableSubmit(true);
 		} else {
@@ -259,7 +258,7 @@ const NewApplication = ({ exists = false }) => {
 		switch (initialValues.status) {
 			case 1:
 				return (
-					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'blue'} p={'5px'} rounded={'md'}>
 						Υποβλήθηκε
 					</Text>
 				);
@@ -277,7 +276,7 @@ const NewApplication = ({ exists = false }) => {
 				);
 			case 4:
 				return (
-					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
 						Αναμονή για ενημέρωση
 					</Text>
 				);
@@ -299,11 +298,21 @@ const NewApplication = ({ exists = false }) => {
 				px={'10px'}
 				bgColor={'#b6c3cf'}
 				alignItems={'center'}>
-				<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
-					<Text as={'span'} fontWeight={'700'}>
-						Κατάσταση:{' '}
-					</Text>
-					{renderStatus()}
+				<Flex alignItems={'center'} gap={4}>
+					<Flex _hover={{ color: '#376aab', cursor: 'pointer' }}>
+						<BsArrowLeftSquare
+							size={'1.8em'}
+							color={'#2C5282'}
+							id={'arrowleft'}
+							onClick={() => navigate(-1)}
+						/>
+					</Flex>
+					<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
+						<Text as={'span'} fontWeight={'700'}>
+							Κατάσταση:{' '}
+						</Text>
+						{renderStatus()}
+					</Flex>
 				</Flex>
 				<Flex gap={4}>
 					{initialValues.createdAt && (
@@ -364,11 +373,15 @@ const NewApplication = ({ exists = false }) => {
 							Λήψη Αίτησης
 						</Button>
 					)}
+					{initialValues.status === 4 && (
+						<div>
+							<Button colorScheme={'gray'} onClick={onOpen}>
+								<Text>Προβολή Σχολίων</Text>
+							</Button>
 
-					<Button colorScheme={'gray'} onClick={onOpen}>
-						<Text>Προβολή Σχολίων</Text>
-					</Button>
-					<CommentModal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} />
+							<CommentModal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose} />
+						</div>
+					)}
 				</Flex>
 			</Flex>
 			<StatusBar active={activeStatus} onSelect={(status) => setActiveStatus(status)} />

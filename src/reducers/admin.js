@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import setAuthHeader from '../utils/setAuthHeader';
+import setAuthHeader from '../utils/setAdminHeader';
 
 setAuthHeader();
 const initialState = {
@@ -31,6 +31,12 @@ const initialState = {
 		isLoading: false,
 		error: null,
 		isRejected: false,
+	},
+	comments: {
+		isLoading: false,
+		error: null,
+		isCommentAdded: false,
+		message: null,
 	},
 };
 
@@ -78,6 +84,7 @@ export default (state = initialState, action) => {
 			};
 		}
 		case types.LOAD_ADMIN_USER_SUCCESS: {
+			setAuthHeader();
 			return {
 				...state,
 				isLoading: false,
@@ -247,6 +254,49 @@ export default (state = initialState, action) => {
 					isFetched: false,
 				},
 			};
+		case types.COMMENT_APPLICATION_REQUEST: {
+			return {
+				...state,
+				comments: {
+					...state.comments,
+					isLoading: true,
+					error: null,
+					isCommentAdded: false,
+				},
+			};
+		}
+		case types.COMMENT_APPLICATION_SUCCESS: {
+			return {
+				...state,
+				comments: {
+					...state.comments,
+					isLoading: false,
+					error: null,
+					message: payload.message,
+
+					isCommentAdded: true,
+				},
+				application: {
+					...state.application,
+					application: {
+						...state.application.application,
+						comments: payload.comments,
+					},
+				},
+			};
+		}
+		case types.COMMENT_APPLICATION_FAILURE: {
+			return {
+				...state,
+				comments: {
+					...state.comments,
+					isLoading: false,
+					isCommentAdded: false,
+					error: payload,
+					message: null,
+				},
+			};
+		}
 		default: {
 			return state;
 		}

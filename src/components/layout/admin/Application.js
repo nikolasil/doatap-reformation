@@ -14,6 +14,9 @@ import { getApplication } from '../../../actions/admin/admin';
 import { Formik, Form, Field } from 'formik';
 import { approveApplication, rejectApplication } from '../../../actions/admin/admin';
 import CommentModal from '../../sections/Admin/Applications/CommentModal';
+import AdminNavbar from '../../ui/AdminNavbar';
+import { BsArrowLeftSquare } from 'react-icons/bs';
+
 let init = {
 	//Personal Data
 	firstName: '',
@@ -109,7 +112,7 @@ const Application = () => {
 		switch (initialValues.status) {
 			case 1:
 				return (
-					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'blue'} p={'5px'} rounded={'md'}>
 						Εκκρεμεί επεξεργασία απο διαχειριστή
 					</Text>
 				);
@@ -127,7 +130,7 @@ const Application = () => {
 				);
 			case 4:
 				return (
-					<Text fontWeight={'500'} color={'gray'} p={'5px'} rounded={'md'}>
+					<Text fontWeight={'500'} color={'orange'} p={'5px'} rounded={'md'}>
 						Αναμονή για ενημέρωση απο χρήστη
 					</Text>
 				);
@@ -162,6 +165,7 @@ const Application = () => {
 	return (
 		<Flex flexDir={'column'}>
 			<Flex flexDir={'column'} bgColor={'gray.50'} flex={1}>
+				<AdminNavbar />
 				<Title title={'Νέα Αίτηση'} />
 				<Flex
 					justifyContent={'space-between'}
@@ -169,11 +173,21 @@ const Application = () => {
 					px={'10px'}
 					bgColor={'#b6c3cf'}
 					alignItems={'center'}>
-					<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
-						<Text as={'span'} fontWeight={'700'}>
-							Κατάσταση:{' '}
-						</Text>
-						{renderStatus()}
+					<Flex alignItems={'center'} gap={4}>
+						<Flex _hover={{ color: '#376aab', cursor: 'pointer' }}>
+							<BsArrowLeftSquare
+								size={'1.8em'}
+								color={'#2C5282'}
+								id={'arrowleft'}
+								onClick={() => navigate(-1)}
+							/>
+						</Flex>
+						<Flex alignItems={'center'} bgColor={'gray.100'} p={'5px'} rounded={'md'}>
+							<Text as={'span'} fontWeight={'700'}>
+								Κατάσταση:{' '}
+							</Text>
+							{renderStatus()}
+						</Flex>
 					</Flex>
 					<Flex gap={4}>
 						<Flex

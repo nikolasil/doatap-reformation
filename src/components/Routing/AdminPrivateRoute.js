@@ -3,7 +3,7 @@ import { useToast } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { Route, Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ children }) => {
+const AdminPrivateRoute = ({ children }) => {
 	const toast = useToast();
 	const admin = useSelector((state) => state.admin);
 	const isAuthenticated = useSelector((state) => state.admin.isAuthenticated);
@@ -24,4 +24,4 @@ const PrivateRoute = ({ children }) => {
 	return !loading && (isAuthenticated ? children : <Navigate to='/admin' />);
 };
 
-export default PrivateRoute;
+export default AdminPrivateRoute;

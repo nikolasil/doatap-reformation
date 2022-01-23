@@ -136,3 +136,40 @@ exports.getApplication = async (req, res) => {
 		});
 	}
 };
+
+exports.commentApplication = async (req, res) => {
+	try {
+		const { id } = req.params;
+		if (!mongoose.isValidObjectId(id)) {
+			return res.status(400).json({
+				message: 'Invalid application id!',
+			});
+		}
+		const application = await Application.findById(id);
+		if (!application) {
+			return res.status(404).json({
+				message: 'Application not found!',
+			});
+		}
+		const { comments } = req.body;
+
+		if (!comments) {
+			return res.status(400).json({
+				message: 'Comments are required!',
+			});
+		}
+
+		application.comments = comments;
+		application.status = 4;
+		await application.save();
+
+		return res.json({
+			message: 'Added Comments To Application!',
+			comments: application.comments,
+		});
+	} catch (error) {
+		return res.json({
+			message: 'Server Error',
+		});
+	}
+};

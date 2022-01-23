@@ -71,3 +71,18 @@ export const getApplication = (id) => async (dispatch) => {
 		dispatch({ type: types.GET_ADMIN_APPLICATION_FAILURE, payload: error.response.data });
 	}
 };
+
+export const commentApplication = (id, comments) => async (dispatch) => {
+	try {
+		dispatch({ type: types.COMMENT_APPLICATION_REQUEST });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		const res = await axios.post(`admin/applications/${id}/comment`, { comments }, config);
+		dispatch({ type: types.COMMENT_APPLICATION_SUCCESS, payload: res.data });
+	} catch (error) {
+		dispatch({ type: types.COMMENT_APPLICATION_FAILURE, payload: error.response.data });
+	}
+};

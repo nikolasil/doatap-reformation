@@ -13,4 +13,5 @@ router.get('/applications', isDashboardAuth, adminController.getAllApplications)
 router.get('/applications/:id', isDashboardAuth, adminController.getApplication);
 router.get('/applications/:id/approve', isDashboardAuth, adminController.approveApplication);
 router.get('/applications/:id/reject', isDashboardAuth, adminController.rejectApplication);
+router.post('/applications/:id/comment', isDashboardAuth, adminController.commentApplication);
 module.exports = router;
