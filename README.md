@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Doatap
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
-## Available Scripts
+<!-- We used ReactJS Framework for the front-end and NodeJS (using the ExpressJS framework) connected with a mongoDB Database for the back-end. Users can create applications (temporary saved, and final submission), they can see the list of their applications. For each application they can see a status and maybe some comments from the admins. The application can be edited by the user at any time, and the admin can see only the applications that are in final submission -->
 
-In the project directory, you can run:
+### :hammer_and_wrench: Installation & Setup
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Necessary dependencies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> - Node.js
+>   [Download for Windows](https://nodejs.org/dist/v16.13.2/node-v16.13.2-x86.msi) | [Website for Download](https://nodejs.org/en/download/)
 
-### `npm test`
+> - MongoDB Community Server
+>   [Download for Windows](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-5.0.5-signed.msi) | [Website for Download](https://www.mongodb.com/try/download/community)
+>   After installing the MongoDB Community Server, you must add to the **Path** Environment Variable the bin folder path. (From default should be in the **C:\Program Files\MongoDB\Tools\\{current-version}\bin**)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> - MongoDB Database Tools
+>   [Download for Windows](https://fastdl.mongodb.org/tools/db/mongodb-database-tools-windows-x86_64-100.5.1.msi) | [Website for Download](https://www.mongodb.com/try/download/database-tools)
+>   After installing the MongoDB Database Tools, you must add to the **Path** Environment Variable the bin folder path. (From default should be in the **C:\Program Files\MongoDB\Server\\{current-version}\bin**)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+After Installing the dependencies above you must follow the steps below:
+1. Open a terminal  to the project folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Restore the Database by running the following command:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```[bash]
+mongorestore --db doatap ./DoatapDB
+```
 
-### `npm run eject`
+This command wiil take all the collections and schemas from the **DoatapDB** folder and create a new database called **doatap**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Build the project by running the following command:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```[bash]
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This can take a while, so be patient.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Run the project by running the following command:
 
-## Learn More
+```[bash]
+npm run start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Now both the front-end, the back-end and the database are running on your local machine!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Go to the [http://localhost:3000/](http://localhost:3000/) in order to visit the website. Admin panel is available at [http://localhost:3000/admin](http://localhost:3000/admin/) but keep it a secret ;).
 
-### Code Splitting
+### :package: Packages, Services and Frameworks
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The web app was created using the MERN stack with the following technologies:
 
-### Analyzing the Bundle Size
+**Backend:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- MongoDB as the main database for storing most of the user-created content because of the scalability it provides in collections and mongoose because the straight forward ODM for storing user data.
+- NodeJS & ExpressJS
+- JsonWebTokens (JWT) for user authentication
+- Bcrypt for hashing user passwords before storing them in the database
+- Multer for uploading media files(mainly images)
 
-### Making a Progressive Web App
+**Frontend**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- ReactJS
+- Chakra as a UI Framework
+- Redux for state management
+- Axios as api client
 
-### Advanced Configuration
+### General Information
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+We focused making the application flow as functional as possible. We have fully working application creation, editing, and the admin panel is fully functional. Admin can **view**, **approve**, **reject** and **add comments** to an appilication.

@@ -4,6 +4,7 @@ const fs = require('fs');
 exports.createApplication = async (req, res) => {
 	try {
 		let application;
+		console.log(req.files);
 		if (req.body._id != null) {
 			application = await Application.findByIdAndUpdate(
 				req.body._id,
@@ -17,7 +18,6 @@ exports.createApplication = async (req, res) => {
 				}
 			);
 		} else {
-			console.log('new');
 			application = new Application({
 				...req.body,
 				belongsTo: req.user._id,

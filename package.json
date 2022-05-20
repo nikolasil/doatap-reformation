@@ -29,12 +29,16 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "serve": "^13.0.2",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
+    "prod": "npx serve -s build",
     "client": "react-scripts start",
-    "start": "concurrently \"npm run client\" \" npm run start --prefix server\"",
-    "build": "react-scripts build",
+    "dev": "concurrently \"npm run client\" \" npm run start --prefix server\"",
+    "react-build": "react-scripts build",
+    "build": " cd server && npm install && cd ../ && npm install && npm run react-build",
+    "start": "concurrently \"cd server && node ./index.js\" \"  npm run prod \"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

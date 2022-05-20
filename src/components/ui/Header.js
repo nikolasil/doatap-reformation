@@ -21,7 +21,7 @@ const Header = () => {
 		navigate('/');
 	};
 	return (
-		<Flex bg={'gray.100'} h={'7vh'} alignItems={'center'} p={'25px'} justifyContent={'space-between'}>
+		<Flex bg={'gray.100'} alignItems={'center'} p={'25px'} maxH={'8vh'} justifyContent={'space-between'}>
 			<Link to={'/'}>
 				<Image src={'/vectors/logo.png'} w={'172px'} h={'52px'} />
 			</Link>

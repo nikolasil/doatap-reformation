@@ -24,17 +24,14 @@ const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, ha
 	const [files, setFiles] = useState([]);
 
 	const updateFiles = (incommingFiles) => {
-		console.log(incommingFiles);
 		setFiles(incommingFiles);
 		handleChangeStatus(incommingFiles);
 	};
 
 	useEffect(() => {
 		let newFiles = [];
-		console.log(init, files);
 		newFiles = init.filter((x) => !files.some((y) => x.originalname === y.file.name));
 		if (newFiles.length > 0 && !hasUploaded) {
-			console.log('we have new files', newFiles);
 			newFiles = newFiles.map((x, index) => ({
 				errors: [],
 				valid: true,
@@ -42,8 +39,6 @@ const Attached = ({ status, saveForm, handleChangeStatus, enableSubmit, init, ha
 				file: new File([x.buffer], x.originalname, { type: x.mimetype }),
 			}));
 			setFiles((prev) => [...prev, ...newFiles]);
-		} else {
-			console.log('we dont have new files');
 		}
 	}, [init]);
 

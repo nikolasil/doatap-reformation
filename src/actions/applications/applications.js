@@ -5,8 +5,10 @@ export const submitNewApplication = (data) => async (dispatch) => {
 	const formData = new FormData();
 	for (let key in data) {
 		if (key === 'attachments') {
-			console.log(data[key]);
 			data[key].forEach((file) => {
+				if (!(file instanceof File)) {
+					file = new File([file.buffer], file.originalname, { type: file.mimetype });
+				}
 				formData.append('attachments', file);
 			});
 		} else {

@@ -13,6 +13,7 @@ import Account from './components/layout/Account/Account';
 import NotFound from './components/layout/NotFound/NotFound';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import { useDispatch } from 'react-redux';
+import UnderConstruction from './components/layout/UnderConstruction/UnderConstruction';
 import { loadUser } from './actions/auth/auth';
 
 const Customer = () => {
@@ -30,6 +31,12 @@ const Customer = () => {
 				<Route exact path='/login' element={<Login />} />
 				<Route exact path='/register' element={<Register />} />
 				<Route exact path='/applications' element={<Applications />} />
+				<Route exact path='/announcements' element={<UnderConstruction />} />
+				<Route exact path='/faq' element={<UnderConstruction />} />
+				<Route exact path='/info' element={<UnderConstruction />} />
+				<Route exact path='/contact' element={<UnderConstruction />} />
+				<Route exact path='/important-links' element={<UnderConstruction />} />
+
 				<Route
 					exact
 					path='/account'

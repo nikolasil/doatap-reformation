@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Flex, Text, useToast, useDisclosure, Button } from '@chakra-ui/react';
+import { Flex, Text, useToast, useDisclosure, Button, Link } from '@chakra-ui/react';
 import StatusBar from '../../sections/Applications/StatusBar';
 import Title from '../../ui/Title';
 import { useSelector, useDispatch } from 'react-redux';
@@ -239,7 +239,6 @@ const NewApplication = ({ exists = false }) => {
 	};
 
 	const handleChangeStatus = (files) => {
-		console.log(files);
 		formRef.current.values.attachments = files.map((file) => file.file);
 		handleValidation();
 	};
@@ -364,14 +363,15 @@ const NewApplication = ({ exists = false }) => {
 							</Button>
 						</Flex>
 					) : (
-						<Button
-							colorScheme={'green'}
-							rounded={'md'}
-							type={'submit'}
-							onClick={generatePDF}
-							leftIcon={<BsDownload />}>
-							Λήψη Αίτησης
-						</Button>
+						<Link href={'/application.pdf'} download>
+							<Button
+								colorScheme={'green'}
+								rounded={'md'}
+								type={'submit'}
+								leftIcon={<BsDownload />}>
+								Λήψη Αίτησης
+							</Button>
+						</Link>
 					)}
 					{initialValues.status === 4 && (
 						<div>

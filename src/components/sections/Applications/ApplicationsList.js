@@ -1,5 +1,18 @@
 import React, { useEffect, Fragment } from 'react';
-import { Flex, Text, Heading, Spinner, Divider, Table, Thead, Tr, Tbody, Td, Th } from '@chakra-ui/react';
+import {
+	Flex,
+	Text,
+	Heading,
+	Button,
+	Spinner,
+	Divider,
+	Table,
+	Thead,
+	Tr,
+	Tbody,
+	Td,
+	Th,
+} from '@chakra-ui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllApplications } from '../../../actions/applications/applications';
 import { FaPencilAlt } from 'react-icons/fa';
@@ -93,8 +106,21 @@ const ApplicationsList = () => {
 					</Table>
 				</Flex>
 			) : (
-				<Flex flexDir={'column'} my={'50px'} justifyContent={'center'} alignItems={'center'}>
-					<Text fontSize={'18px'}>Δεν έχετε αιτήσεις</Text>
+				<Flex
+					flexDir={'column'}
+					my={'50px'}
+					justifyContent={'center'}
+					alignItems={'center'}
+					gap={2}
+					color={'blue.700'}>
+					<Text fontSize={'28px'}>Δεν έχετε αιτήσεις</Text>
+					<Button
+						variant={'outline'}
+						colorScheme={'blue'}
+						cursor={'pointer'}
+						onClick={() => navigate('/applications/new-application')}>
+						Δημιουργήστε νέα αίτηση
+					</Button>
 				</Flex>
 			)}
 		</Flex>
